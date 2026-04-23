@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://b27eu2i3usdul"]
+
+[ext_resource type="Script" uid="uid://x7x4b5f5dvn8" path="res://Scripts/Player.cs" id="1_kyqiw"]
+[ext_resource type="Texture2D" uid="uid://cp0cdh3ijhc0i" path="res://assets/2D Pixel Dungeon Asset Pack/Character_animation/monsters_idle/skeleton2/v1/skeleton2_v1_1.png" id="1_rpqav"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kyqiw"]
+radius = 3.0
+height = 12.0
+
+[node name="Player" type="CharacterBody2D" unique_id=2014180960]
+script = ExtResource("1_kyqiw")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=459525853]
+texture = ExtResource("1_rpqav")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=615025448]
+position = Vector2(-1, 0)
+shape = SubResource("CapsuleShape2D_kyqiw")

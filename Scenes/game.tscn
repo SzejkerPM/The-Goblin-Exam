@@ -1,8 +1,7 @@
 [gd_scene format=4 uid="uid://d1kf583bengl3"]
 
-[ext_resource type="Script" uid="uid://c6yk7yg583d3l" path="res://Node2d.cs" id="1_e2o6t"]
-[ext_resource type="Texture2D" uid="uid://cqiul3jxnwji1" path="res://assets/2D Pixel Dungeon Asset Pack/character and tileset/Dungeon_Tileset.png" id="2_feb5d"]
-[ext_resource type="Texture2D" uid="uid://c1s7ci53a2tjr" path="res://assets/2D Pixel Dungeon Asset Pack/Character_animation/monsters_idle/skeleton1/v1/skeleton_v1_1.png" id="3_feb5d"]
+[ext_resource type="Texture2D" uid="uid://cqiul3jxnwji1" path="res://assets/2D Pixel Dungeon Asset Pack/character and tileset/Dungeon_Tileset.png" id="2_wrm1d"]
+[ext_resource type="PackedScene" uid="uid://b27eu2i3usdul" path="res://Scenes/Player.tscn" id="3_wrm1d"]
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_e2o6t"]
 polygon = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
@@ -14,7 +13,7 @@ polygon = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 polygon = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_fc0e3"]
-texture = ExtResource("2_feb5d")
+texture = ExtResource("2_wrm1d")
 0:0/0 = 0
 0:0/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_e2o6t")
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
@@ -174,9 +173,6 @@ occlusion_layer_0/light_mask = 1
 physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_fc0e3")
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_fc0e3"]
-radius = 8.246211
-
 [sub_resource type="Gradient" id="Gradient_e2o6t"]
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
 
@@ -190,12 +186,6 @@ metadata/_snap_enabled = true
 [node name="Game" type="Node2D" unique_id=1641961366]
 texture_filter = 1
 texture_repeat = 1
-script = ExtResource("1_e2o6t")
-
-[node name="DefaultCamera" type="Camera2D" parent="." unique_id=605789564]
-position = Vector2(2, -1)
-anchor_mode = 0
-zoom = Vector2(2, 2)
 
 [node name="Shadow" type="CanvasModulate" parent="." unique_id=599129329]
 position = Vector2(121, 99)
@@ -206,16 +196,6 @@ tile_map_data = PackedByteArray("AAABAAEAAAAIAAIAAAABAAIAAAAHAAIAAAABAAMAAAAGAAE
 tile_set = SubResource("TileSet_7jktm")
 
 [node name="Objects" type="Node" parent="." unique_id=598915892]
-
-[node name="TestRigidBody" type="RigidBody2D" parent="Objects" unique_id=1969606669]
-position = Vector2(78, 60)
-
-[node name="SkeletonV11" type="Sprite2D" parent="Objects/TestRigidBody" unique_id=1742842884]
-position = Vector2(1, 0)
-texture = ExtResource("3_feb5d")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Objects/TestRigidBody" unique_id=1096716987]
-shape = SubResource("CircleShape2D_fc0e3")
 
 [node name="TestLight" type="PointLight2D" parent="Objects" unique_id=843327930]
 position = Vector2(344, 109)
@@ -234,3 +214,10 @@ position = Vector2(176, 77.999985)
 scale = Vector2(1.9200025, 1.9200025)
 shadow_enabled = true
 texture = SubResource("GradientTexture2D_feb5d")
+
+[node name="Player" parent="." unique_id=2014180960 instance=ExtResource("3_wrm1d")]
+position = Vector2(69, 70)
+
+[node name="DefaultCamera" type="Camera2D" parent="Player" unique_id=605789564]
+zoom = Vector2(4, 4)
+position_smoothing_enabled = true
