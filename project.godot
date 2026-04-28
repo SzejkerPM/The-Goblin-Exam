@@ -26,8 +26,14 @@ project/assembly_name="The Goblin Exam"
 
 folder_colors={
 "res://assets/": "green",
-"res://audio/": "pink"
+"res://audio/": "pink",
+"res://resources/": "teal",
+"res://scripts/": "blue"
 }
+
+[global_group]
+
+Collectibles=""
 
 [input]
 

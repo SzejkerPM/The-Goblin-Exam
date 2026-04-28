@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="CollectibleResource" format=3 uid="uid://cfvaclnb8ic2h"]
+
+[ext_resource type="Script" uid="uid://bysmghtgaleer" path="res://resources/Collectibles/CollectibleResource.cs" id="1_01ger"]
+[ext_resource type="Texture2D" uid="uid://cvpemby1mju58" path="res://assets/2D Pixel Dungeon Asset Pack/items and trap_animation/coin/coin_1.png" id="1_d2yr4"]
+
+[resource]
+script = ExtResource("1_01ger")
+Texture = ExtResource("1_d2yr4")
+Name = "Small Gold Pile"
+Value = 5
+Weight = 1.0
+metadata/_custom_type_script = "uid://bysmghtgaleer"
