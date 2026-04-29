@@ -1,8 +1,11 @@
 [gd_scene format=4 uid="uid://d1kf583bengl3"]
 
+[ext_resource type="Script" uid="uid://mibyvvr2bjok" path="res://scripts/Game.cs" id="1_3dryh"]
+[ext_resource type="PackedScene" uid="uid://c5kj5446llr3j" path="res://scenes/GameUi.tscn" id="1_wrm1d"]
 [ext_resource type="PackedScene" uid="uid://bdboyabfpl7sm" path="res://scenes/collectibles/collectible_spawner.tscn" id="1_u5sy4"]
 [ext_resource type="Script" uid="uid://bysmghtgaleer" path="res://resources/Collectibles/CollectibleResource.cs" id="2_gee14"]
 [ext_resource type="Texture2D" uid="uid://cqiul3jxnwji1" path="res://assets/2D Pixel Dungeon Asset Pack/character and tileset/Dungeon_Tileset.png" id="2_wrm1d"]
+[ext_resource type="PackedScene" uid="uid://b27eu2i3usdul" path="res://scenes/Player.tscn" id="3_wrm1d"]
 [ext_resource type="Resource" uid="uid://bbsigqfjcg1uf" path="res://resources/Collectibles/gold_pile_big.tres" id="3_0tnpc"]
 [ext_resource type="PackedScene" uid="uid://b27eu2i3usdul" path="res://scenes/Player.tscn" id="3_wrm1d"]
 [ext_resource type="Resource" uid="uid://cfvaclnb8ic2h" path="res://resources/Collectibles/gold_pile_small.tres" id="4_vtaks"]
@@ -188,9 +191,14 @@ fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(0.5, 0)
 metadata/_snap_enabled = true
 
-[node name="Game" type="Node2D" unique_id=1641961366]
+[node name="Game" type="Node2D" unique_id=1641961366 node_paths=PackedStringArray("_stamina", "_gameUi")]
 texture_filter = 1
 texture_repeat = 1
+script = ExtResource("1_3dryh")
+_stamina = NodePath("Player/Stamina")
+_gameUi = NodePath("CanvasLayer")
+
+[node name="CanvasLayer" parent="." unique_id=1961520047 instance=ExtResource("1_wrm1d")]
 
 [node name="CollectibleSpawner" parent="." unique_id=1877970303 node_paths=PackedStringArray("MarkersParent", "SpawnParent") instance=ExtResource("1_u5sy4")]
 MarkersParent = NodePath("../CollectibleMarkers")

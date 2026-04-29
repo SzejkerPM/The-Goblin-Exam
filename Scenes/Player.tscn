@@ -2,13 +2,15 @@
 
 [ext_resource type="Script" uid="uid://x7x4b5f5dvn8" path="res://scripts/Player.cs" id="1_kyqiw"]
 [ext_resource type="Texture2D" uid="uid://cp0cdh3ijhc0i" path="res://assets/2D Pixel Dungeon Asset Pack/Character_animation/monsters_idle/skeleton2/v1/skeleton2_v1_1.png" id="1_rpqav"]
+[ext_resource type="Script" uid="uid://ccs1u0qgy6s73" path="res://scripts/Stamina.cs" id="3_gntrk"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kyqiw"]
 radius = 3.0
 height = 12.0
 
-[node name="Player" type="CharacterBody2D" unique_id=2014180960]
+[node name="Player" type="CharacterBody2D" unique_id=2014180960 node_paths=PackedStringArray("_stamina")]
 script = ExtResource("1_kyqiw")
+_stamina = NodePath("Stamina")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=459525853]
 texture = ExtResource("1_rpqav")
@@ -16,3 +18,6 @@ texture = ExtResource("1_rpqav")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=615025448]
 position = Vector2(-1, 0)
 shape = SubResource("CapsuleShape2D_kyqiw")
+
+[node name="Stamina" type="Node" parent="." unique_id=1620637348]
+script = ExtResource("3_gntrk")
