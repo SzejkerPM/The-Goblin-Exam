@@ -1,18 +1,27 @@
 using Godot;
+using TheGoblinExam.scripts;
 
 namespace TheGoblinExam.Scripts;
 
 public partial class Player : CharacterBody2D
 {
-    
+    [Signal]
+    public delegate void InteractionAreaEnteredEventHandler();
+    [Signal]
+    public delegate void InteractionAreaExitedEventHandler();
+        
     [Export] private float _playerSpeed = 75f;
-    [Export] private float _playerSprintSpeed = 25f;
+    [Export] private float _playerSprintBonusSpeed = 25f;
     
     private Stamina _stamina;
+    private Inventory _inventory;
+
+    private IInteractable _currentInteractable;
 
     public override void _Ready()
     {
         _stamina = GetNode<Stamina>("Stamina");
+        _inventory = GetNode<Inventory>("Inventory");
     }
 
     public override void _PhysicsProcess(double delta)
@@ -22,6 +31,32 @@ public partial class Player : CharacterBody2D
         var speed = GetMovementSpeed(direction, delta);
         
         MovePlayer(direction, speed);
+        
+        InteractWithInteractable();
+    }
+
+    private void OnInteractionZoneAreaEntered(Node2D node)
+    {
+        if (node is Collectible collectible && _inventory.CanAddItems())
+        {
+            _currentInteractable = collectible;
+            collectible.Highlight(true);
+            EmitSignal(SignalName.InteractionAreaEntered);
+        }
+    }
+
+    private void OnInteractionZoneAreaExited(Node2D node)
+    {
+        if (node is Collectible collectible)
+        {
+            if (_currentInteractable == collectible) 
+            {
+                _currentInteractable = null;
+            }
+            
+            collectible.Highlight(false);
+            EmitSignal(SignalName.InteractionAreaExited);
+        }
     }
 
     private Vector2 GetDirectionFromInput()
@@ -35,7 +70,7 @@ public partial class Player : CharacterBody2D
         
         if (Input.IsActionPressed("sprint") && direction != Vector2.Zero && _stamina.CanUseStamina())
         {
-            speed += _playerSprintSpeed;
+            speed += _playerSprintBonusSpeed;
             _stamina.ConsumeStamina(delta);
         }
         
@@ -46,5 +81,19 @@ public partial class Player : CharacterBody2D
     {
         Velocity = direction * speed;
         MoveAndSlide();
+    }
+
+    private void InteractWithInteractable()
+    {
+        if (Input.IsActionJustPressed("interact"))
+        {
+            if (_currentInteractable is Collectible collectible)
+            {
+                var item = collectible.CollectibleResource;
+                _currentInteractable?.Interact();
+                _inventory.AddItemToInventory(item);
+                _currentInteractable = null;
+            }
+        }
     }
 }
