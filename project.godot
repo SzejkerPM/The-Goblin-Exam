@@ -34,6 +34,7 @@ folder_colors={
 [global_group]
 
 Collectibles=""
+player=""
 
 [input]
 
@@ -76,6 +77,15 @@ interact={
 
 2d_physics/layer_2="Player"
 2d_physics/layer_3="Collectible"
+
+[layer_names]
+
+2d_physics/layer_1="TilemapCollision"
+2d_navigation/layer_1="enemyai"
+2d_physics/layer_2="Player"
+2d_physics/layer_3="Collectible"
+2d_physics/layer_4="Enemy"
+2d_physics/layer_5="VisionEnemyArea"
 
 [physics]
 

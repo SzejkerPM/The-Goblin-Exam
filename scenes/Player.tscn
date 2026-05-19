@@ -1,0 +1,72 @@
+[gd_scene format=3 uid="uid://b27eu2i3usdul"]
+
+[ext_resource type="Script" uid="uid://x7x4b5f5dvn8" path="res://scripts/Player.cs" id="1_kyqiw"]
+[ext_resource type="Texture2D" uid="uid://cp0cdh3ijhc0i" path="res://assets/2D Pixel Dungeon Asset Pack/Character_animation/monsters_idle/skeleton2/v1/skeleton2_v1_1.png" id="1_rpqav"]
+[ext_resource type="Script" uid="uid://ccs1u0qgy6s73" path="res://scripts/Stamina.cs" id="3_gntrk"]
+[ext_resource type="Script" path="res://scripts/Inventory.cs" id="4_mdl7e"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kyqiw"]
+radius = 3.0
+height = 12.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_mdl7e"]
+
+[sub_resource type="Gradient" id="Gradient_e2o6t"]
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_mdl7e"]
+gradient = SubResource("Gradient_e2o6t")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+metadata/_snap_enabled = true
+metadata/_snap_count = 4
+
+[node name="Player" type="CharacterBody2D" unique_id=2014180960]
+collision_layer = 2
+script = ExtResource("1_kyqiw")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=459525853]
+texture = ExtResource("1_rpqav")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=615025448]
+position = Vector2(-1, 0)
+shape = SubResource("CapsuleShape2D_kyqiw")
+
+[node name="InteractionZone" type="Area2D" parent="." unique_id=217140712]
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionZone" unique_id=1365314172]
+shape = SubResource("CircleShape2D_mdl7e")
+
+[node name="Stamina" type="Node" parent="." unique_id=1620637348]
+script = ExtResource("3_gntrk")
+
+[node name="Inventory" type="Node2D" parent="." unique_id=2010734401]
+unique_name_in_owner = true
+script = ExtResource("4_mdl7e")
+
+[node name="InventorySprites" type="Node2D" parent="Inventory" unique_id=683824363]
+unique_name_in_owner = true
+position = Vector2(0, -6)
+
+[node name="Slot1" type="Sprite2D" parent="Inventory/InventorySprites" unique_id=1326280546]
+position = Vector2(0, -4)
+
+[node name="Slot2" type="Sprite2D" parent="Inventory/InventorySprites" unique_id=1487959570]
+position = Vector2(0, -8)
+
+[node name="Slot3" type="Sprite2D" parent="Inventory/InventorySprites" unique_id=1826764516]
+position = Vector2(0, -12)
+
+[node name="TestLight" type="PointLight2D" parent="." unique_id=716974116]
+position = Vector2(-0.4999981, 0.99999714)
+scale = Vector2(1.421875, 1.25)
+color = Color(0.827451, 0.7490196, 0.43529412, 0.5647059)
+energy = 4.35
+shadow_enabled = true
+texture = SubResource("GradientTexture2D_mdl7e")
+
+[connection signal="area_entered" from="InteractionZone" to="." method="OnInteractionZoneAreaEntered"]
+[connection signal="area_exited" from="InteractionZone" to="." method="OnInteractionZoneAreaExited"]

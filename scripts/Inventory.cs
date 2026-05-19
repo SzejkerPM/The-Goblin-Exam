@@ -15,7 +15,7 @@ public partial class Inventory : Node
             .GetChildren()
             .OfType<Sprite2D>()
             .ToArray();
-        
+
         SetUpInventorySprites();
     }
 
@@ -29,7 +29,7 @@ public partial class Inventory : Node
     {
         return _inventory.Count < _inventorySprites.Length;
     }
-    
+
     private void SetUpInventorySprites()
     {
         for (int i = 0; i < _inventory.Count && i < _inventorySprites.Length; i++)
