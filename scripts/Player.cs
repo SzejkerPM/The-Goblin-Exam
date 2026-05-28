@@ -13,9 +13,11 @@ public partial class Player : CharacterBody2D
 
     [Export] private float _playerSpeed = 75f;
     [Export] private float _playerSprintBonusSpeed = 25f;
+    [Export] private float _sprintAnimationScale = 1.35f;
 
     private Stamina _stamina;
     private Inventory _inventory;
+    private AnimatedSprite2D _animatedSprite;
 
     private IInteractable _currentInteractable;
 
@@ -23,6 +25,7 @@ public partial class Player : CharacterBody2D
     {
         _stamina = GetNode<Stamina>("Stamina");
         _inventory = GetNode<Inventory>("Inventory");
+        _animatedSprite = GetNode<AnimatedSprite2D>("%AnimatedSprite2D");
     }
 
     public override void _PhysicsProcess(double delta)
@@ -32,6 +35,8 @@ public partial class Player : CharacterBody2D
         var speed = GetMovementSpeed(direction, delta);
 
         MovePlayer(direction, speed);
+
+        UpdateAnimation(direction);
 
         InteractWithInteractable();
     }
@@ -72,10 +77,13 @@ public partial class Player : CharacterBody2D
     {
         var speed = _playerSpeed;
 
+        _animatedSprite.SpeedScale = 1.0f;
+
         if (Input.IsActionPressed("sprint") && direction != Vector2.Zero && _stamina.CanUseStamina())
         {
             speed += _playerSprintBonusSpeed;
             _stamina.ConsumeStamina(delta);
+            _animatedSprite.SpeedScale = _sprintAnimationScale;
         }
 
         return speed;
@@ -85,6 +93,27 @@ public partial class Player : CharacterBody2D
     {
         Velocity = direction * speed;
         MoveAndSlide();
+    }
+
+    private void UpdateAnimation(Vector2 direction)
+    {
+        if (direction.X < 0)
+        {
+            _animatedSprite.FlipH = true;
+        }
+        else if (direction.X > 0)
+        {
+            _animatedSprite.FlipH = false;
+        }
+
+        if (direction == Vector2.Zero)
+        {
+            _animatedSprite.Play("idle");
+        }
+        else
+        {
+            _animatedSprite.Play("running");
+        }
     }
 
     private void InteractWithInteractable()
