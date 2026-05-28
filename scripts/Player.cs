@@ -6,7 +6,7 @@ namespace TheGoblinExam.Scripts;
 public partial class Player : CharacterBody2D
 {
     [Signal]
-    public delegate void InteractionAreaEnteredEventHandler();
+    public delegate void InteractionAreaEnteredEventHandler(string interactionPrompt);
 
     [Signal]
     public delegate void InteractionAreaExitedEventHandler();
@@ -38,24 +38,27 @@ public partial class Player : CharacterBody2D
 
     private void OnInteractionZoneAreaEntered(Node2D node)
     {
-        if (node is Collectible collectible && _inventory.CanAddItems())
+        if (node is IInteractable interactable)
         {
-            _currentInteractable = collectible;
-            collectible.Highlight(true);
-            EmitSignal(SignalName.InteractionAreaEntered);
+            if (node is Collectible && !_inventory.CanAddItems()) return;
+            if (node is Shopkeeper && _inventory.IsInventoryEmpty()) return;
+
+            _currentInteractable = interactable;
+            interactable.Highlight(true);
+            EmitSignal(SignalName.InteractionAreaEntered, interactable.InteractionPrompt);
         }
     }
 
     private void OnInteractionZoneAreaExited(Node2D node)
     {
-        if (node is Collectible collectible)
+        if (node is IInteractable interactable)
         {
-            if (_currentInteractable == collectible)
+            if (_currentInteractable == interactable)
             {
                 _currentInteractable = null;
             }
 
-            collectible.Highlight(false);
+            interactable.Highlight(false);
             EmitSignal(SignalName.InteractionAreaExited);
         }
     }
@@ -94,6 +97,19 @@ public partial class Player : CharacterBody2D
                 _currentInteractable?.Interact();
                 _inventory.AddItemToInventory(item);
                 _currentInteractable = null;
+            }
+            else if (_currentInteractable is Shopkeeper shopkeeper)
+            {
+                var itemsValue = _inventory.CountItemsValue();
+
+                if (shopkeeper.Gold >= itemsValue)
+                {
+                    shopkeeper.ReduceGold(itemsValue);
+                    _inventory.RemoveAllItemsFromInventory();
+                    _inventory.AddGoldFromTransaction(itemsValue);
+                    shopkeeper.UpdatePlayerGold(_inventory.Gold);
+                    _currentInteractable?.Interact();
+                }
             }
         }
     }

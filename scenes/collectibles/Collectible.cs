@@ -5,9 +5,10 @@ using TheGoblinExam.scripts;
 public partial class Collectible : Node2D, IInteractable
 {
 	public CollectibleResource CollectibleResource { get; private set; }
+	public string InteractionPrompt => "Pick up";
 	
 	private Sprite2D _collectibleSprite;
-	
+
 	public void Init(CollectibleResource resource)
 	{
 		CollectibleResource = resource;

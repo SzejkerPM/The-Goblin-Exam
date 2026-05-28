@@ -6,6 +6,10 @@ namespace TheGoblinExam.scripts;
 
 public partial class Inventory : Node
 {
+    [Signal]
+    public delegate void GoldChangedEventHandler(int gold);
+    public int Gold { get; private set; }
+
     private Sprite2D[] _inventorySprites;
     private readonly List<CollectibleResource> _inventory = [];
 
@@ -25,9 +29,38 @@ public partial class Inventory : Node
         SetUpInventorySprites();
     }
 
+    public void RemoveAllItemsFromInventory()
+    {
+        RemoveInventorySprites();
+        _inventory.Clear();
+    }
+
+    public int CountItemsValue()
+    {
+        int value = 0;
+
+        foreach (var item in _inventory)
+        {
+            value += item.Value;
+        }
+
+        return value;
+    }
+
     public bool CanAddItems()
     {
         return _inventory.Count < _inventorySprites.Length;
+    }
+
+    public bool IsInventoryEmpty()
+    {
+        return _inventory.Count == 0;
+    }
+
+    public void AddGoldFromTransaction(int gold)
+    {
+        Gold += gold;
+        EmitSignal(SignalName.GoldChanged, Gold);
     }
 
     private void SetUpInventorySprites()
@@ -38,6 +71,14 @@ public partial class Inventory : Node
             {
                 _inventorySprites[i].Texture = _inventory[i].Texture;
             }
+        }
+    }
+
+    private void RemoveInventorySprites()
+    {
+        for (int i = 0; i < _inventory.Count && i < _inventorySprites.Length; i++)
+        {
+            _inventorySprites[i].Texture = null;
         }
     }
 }

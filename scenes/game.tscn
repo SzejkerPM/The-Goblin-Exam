@@ -9,7 +9,8 @@
 [ext_resource type="PackedScene" uid="uid://b27eu2i3usdul" path="res://scenes/Player.tscn" id="3_wrm1d"]
 [ext_resource type="Resource" uid="uid://cfvaclnb8ic2h" path="res://Resources/Collectibles/gold_pile_small.tres" id="4_vtaks"]
 [ext_resource type="PackedScene" uid="uid://cs42ygss6w5cg" path="res://scenes/collectibles/collectible_marker.tscn" id="5_kvpfn"]
-[ext_resource type="PackedScene" path="res://scenes/EnemyAi.tscn" id="10_vtaks"]
+[ext_resource type="PackedScene" uid="uid://btm6hbe3yvrdd" path="res://scenes/EnemyAi.tscn" id="10_vtaks"]
+[ext_resource type="PackedScene" uid="uid://d4japvh0hhkg1" path="res://scenes/shopkeeper.tscn" id="11_kvpfn"]
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_e2o6t"]
 polygon = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
@@ -249,20 +250,20 @@ fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(0.5, 0)
 metadata/_snap_enabled = true
 
-[node name="Game" type="Node2D" unique_id=1641961366 node_paths=PackedStringArray("_stamina", "_gameUi", "_player")]
+[node name="Game" type="Node2D" unique_id=1641961366 node_paths=PackedStringArray("_gameUi", "_player", "_shopkeeper")]
 texture_filter = 1
 texture_repeat = 1
 script = ExtResource("1_3dryh")
-_stamina = NodePath("Player/Stamina")
 _gameUi = NodePath("GameUi")
 _player = NodePath("Player")
+_shopkeeper = NodePath("Shopkeeper")
 
 [node name="GameUi" parent="." unique_id=1961520047 instance=ExtResource("1_wrm1d")]
 
 [node name="CollectibleSpawner" parent="." unique_id=1877970303 node_paths=PackedStringArray("MarkersParent", "SpawnParent") instance=ExtResource("1_u5sy4")]
 MarkersParent = NodePath("../CollectibleMarkers")
 SpawnParent = NodePath("../Objects")
-Collectibles = Array[ExtResource("2_gee14")]([ExtResource("3_0tnpc"), ExtResource("4_vtaks"), ExtResource("4_vtaks")])
+Collectibles = Array[ExtResource("2_gee14")]([ExtResource("3_0tnpc"), ExtResource("4_vtaks"), ExtResource("4_vtaks"), ExtResource("3_0tnpc"), ExtResource("4_vtaks"), ExtResource("4_vtaks"), ExtResource("3_0tnpc")])
 
 [node name="CollectibleMarkers" type="Node" parent="." unique_id=469165547]
 
@@ -277,6 +278,30 @@ position = Vector2(121, 120)
 
 [node name="CollectibleMarker4" parent="CollectibleMarkers" unique_id=444634608 instance=ExtResource("5_kvpfn")]
 position = Vector2(24, 120)
+
+[node name="CollectibleMarker5" parent="CollectibleMarkers" unique_id=998396096 instance=ExtResource("5_kvpfn")]
+position = Vector2(184, 263)
+
+[node name="CollectibleMarker6" parent="CollectibleMarkers" unique_id=1683064256 instance=ExtResource("5_kvpfn")]
+position = Vector2(184, 183)
+
+[node name="CollectibleMarker7" parent="CollectibleMarkers" unique_id=910906792 instance=ExtResource("5_kvpfn")]
+position = Vector2(296, 200)
+
+[node name="CollectibleMarker8" parent="CollectibleMarkers" unique_id=2022048296 instance=ExtResource("5_kvpfn")]
+position = Vector2(376, 136)
+
+[node name="CollectibleMarker9" parent="CollectibleMarkers" unique_id=1918826807 instance=ExtResource("5_kvpfn")]
+position = Vector2(248, 264)
+
+[node name="CollectibleMarker10" parent="CollectibleMarkers" unique_id=934373922 instance=ExtResource("5_kvpfn")]
+position = Vector2(376, 200)
+
+[node name="CollectibleMarker12" parent="CollectibleMarkers" unique_id=1377917311 instance=ExtResource("5_kvpfn")]
+position = Vector2(232, 104)
+
+[node name="CollectibleMarker11" parent="CollectibleMarkers" unique_id=548220882 instance=ExtResource("5_kvpfn")]
+position = Vector2(296, 136)
 
 [node name="Shadow" type="CanvasModulate" parent="." unique_id=599129329]
 position = Vector2(121, 99)
@@ -332,3 +357,6 @@ position = Vector2(324, 174)
 LoseSightTime = 2.0
 MaxChaseTime = 10.0
 _points = [NodePath("../enemyMarkers/MarkerA"), NodePath("../enemyMarkers/MarkerB")]
+
+[node name="Shopkeeper" parent="." unique_id=1946631433 instance=ExtResource("11_kvpfn")]
+position = Vector2(307, 42)

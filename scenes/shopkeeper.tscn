@@ -1,0 +1,87 @@
+[gd_scene format=3 uid="uid://d4japvh0hhkg1"]
+
+[ext_resource type="Texture2D" uid="uid://cqvg527r2u3g6" path="res://assets/2D Pixel Dungeon Asset Pack/Character_animation/priests_idle/priest1/v1/priest1_v1_1.png" id="1_fdy00"]
+[ext_resource type="Script" uid="uid://c64ekl5c4comu" path="res://scripts/Shopkeeper.cs" id="1_rla2l"]
+[ext_resource type="Texture2D" uid="uid://botlq82f6jfrv" path="res://assets/2D Pixel Dungeon Asset Pack/Character_animation/priests_idle/priest1/v1/priest1_v1_2.png" id="2_rla2l"]
+[ext_resource type="Texture2D" uid="uid://7xu4qkbs0cru" path="res://assets/2D Pixel Dungeon Asset Pack/Character_animation/priests_idle/priest1/v1/priest1_v1_3.png" id="3_bcyy5"]
+[ext_resource type="Texture2D" uid="uid://cqkkl2ho2xqcl" path="res://assets/2D Pixel Dungeon Asset Pack/Character_animation/priests_idle/priest1/v1/priest1_v1_4.png" id="4_vce3n"]
+[ext_resource type="Texture2D" uid="uid://boajmnr8trwj4" path="res://assets/UI/single-line.png" id="6_bcyy5"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_o43xa"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_fdy00")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_rla2l")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_bcyy5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_vce3n")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 2.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_fdy00"]
+radius = 4.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_88pk2"]
+radius = 14.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_vce3n"]
+line_spacing = 0.0
+font_size = 4
+font_color = Color(0, 0, 0, 1)
+
+[node name="Shopkeeper" type="Area2D" unique_id=1946631433]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("1_rla2l")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=704099383]
+sprite_frames = SubResource("SpriteFrames_o43xa")
+animation = &"Idle"
+autoplay = "Idle"
+frame_progress = 0.68416405
+
+[node name="CollisionZone" type="StaticBody2D" parent="." unique_id=2054213013]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionZone" unique_id=384854704]
+position = Vector2(-1, 2)
+shape = SubResource("CircleShape2D_fdy00")
+
+[node name="InteractionZone" type="CollisionShape2D" parent="." unique_id=1917176194]
+position = Vector2(-1, 0)
+shape = SubResource("CircleShape2D_88pk2")
+
+[node name="TextBubble" type="TextureRect" parent="." unique_id=2026443947]
+unique_name_in_owner = true
+visible = false
+offset_left = -6.0
+offset_top = -28.0
+offset_right = 48.0
+offset_bottom = -7.0
+texture = ExtResource("6_bcyy5")
+expand_mode = 3
+
+[node name="ShopkeeperText" type="Label" parent="TextBubble" unique_id=1369448170]
+unique_name_in_owner = true
+layout_direction = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.098000005
+anchor_top = 0.10300001
+anchor_right = 0.9250001
+anchor_bottom = 0.577
+offset_left = -0.2920003
+offset_top = -0.36899948
+offset_right = 1.0499954
+offset_bottom = 2.265667
+text = "The safe word is \"banana\"."
+label_settings = SubResource("LabelSettings_vce3n")
+autowrap_mode = 3

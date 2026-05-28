@@ -36,6 +36,10 @@ folder_colors={
 Collectibles=""
 player=""
 
+[gui]
+
+theme/default_font_multichannel_signed_distance_field=true
+
 [input]
 
 move_left={
@@ -75,15 +79,10 @@ interact={
 
 [layer_names]
 
-2d_physics/layer_2="Player"
-2d_physics/layer_3="Collectible"
-
-[layer_names]
-
 2d_physics/layer_1="TilemapCollision"
 2d_navigation/layer_1="enemyai"
 2d_physics/layer_2="Player"
-2d_physics/layer_3="Collectible"
+2d_physics/layer_3="Interactables"
 2d_physics/layer_4="Enemy"
 2d_physics/layer_5="VisionEnemyArea"
 
