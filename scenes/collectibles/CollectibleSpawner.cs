@@ -12,9 +12,10 @@ public partial class CollectibleSpawner : Node2D
     private Node SpawnParent { get; set; }
     
     [Export]
-    private Array<CollectibleResource> Collectibles { get; set; } = new();
+    private Array<InteractableResource> Collectibles { get; set; } = new();
     
     private PackedScene _collectibleScene = GD.Load<PackedScene>("res://scenes/collectibles/Collectible.tscn");
+    private PackedScene _openableScene = GD.Load<PackedScene>("res://scenes/collectibles/Openable.tscn");
 
     public override void _Ready()
     {
@@ -24,33 +25,74 @@ public partial class CollectibleSpawner : Node2D
     public void SpawnCollectibles()
     {
         var markers = getMarkers();
-        var collectibles = new Array<CollectibleResource>(Collectibles);
+        var interactables = new Array<InteractableResource>(Collectibles);
 
         markers.Shuffle();
-        collectibles.Shuffle();
+        interactables.Shuffle();
 
-        var count = Mathf.Min(markers.Count, collectibles.Count);
+        var count = Mathf.Min(markers.Count, interactables.Count);
         
-        GD.Print($"Spawning {count} collectibles...");
+        GD.Print($"Spawning {count} interactables...");
 
         for (int i = 0; i < count; i++)
         {
             var marker = markers[i];
-            var resource = collectibles[i];
-            SpawnCollectible(marker, resource);
+            var resource = interactables[i];
+            SpawnInteractable(marker, resource);
         }
         
         HideMarkers(markers);
     }
 
-    private void SpawnCollectible(CollectibleMarker marker, CollectibleResource resource)
+    public Collectible SpawnCollectible(Vector2 globalPosition, CollectibleResource resource)
     {
-        GD.Print($"Spawning {resource.Name} {marker.GlobalPosition}");
-        
+        GD.Print($"Spawning collectible {resource.Name} at {globalPosition}");
         var collectible = _collectibleScene.Instantiate<Collectible>();
         SpawnParent.AddChild(collectible);
-        collectible.GlobalPosition = marker.GlobalPosition;
+        collectible.GlobalPosition = globalPosition;
         collectible.Init(resource);
+        return collectible;
+    }
+    
+    public void SpawnOpenable(Vector2 globalPosition, OpenableResource resource)
+    {
+        GD.Print($"Spawning openable at {globalPosition}");
+        var openable = _openableScene.Instantiate<Openable>();
+        SpawnParent.AddChild(openable);
+        openable.GlobalPosition = globalPosition;
+        openable.Init(resource);
+        openable.Opened += OnOpenableOpened;
+    }
+
+    private void OnOpenableOpened(Openable openable)
+    {
+        var resource = openable.GetResource();
+
+        var random = new RandomNumberGenerator();
+        random.Randomize();
+
+        foreach (var collectibleResource in resource.Collectibles)
+        {
+            var collectible = SpawnCollectible(openable.GlobalPosition, collectibleResource);
+            var forceDirection = Vector2.Up.Rotated(random.RandfRange(-Mathf.Pi / 2, Mathf.Pi / 2));
+            var forceMagnitude = random.RandfRange(70f, 150f);
+            
+            collectible.ApplyImpulse(forceDirection * forceMagnitude);
+        }
+        
+        openable.Opened -= OnOpenableOpened;
+    }
+
+    private void SpawnInteractable(CollectibleMarker marker, InteractableResource resource)
+    {
+        if (resource is CollectibleResource collectibleResource)
+        {
+            SpawnCollectible(marker.GlobalPosition, collectibleResource);
+        }
+        else if (resource is OpenableResource openableResource)
+        {
+            SpawnOpenable(marker.GlobalPosition, openableResource);
+        }
     }
 
     private Array<CollectibleMarker> getMarkers()

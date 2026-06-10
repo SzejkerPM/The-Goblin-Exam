@@ -1,7 +1,7 @@
 using Godot;
 
 [GlobalClass]
-public partial class CollectibleResource : Resource
+public partial class CollectibleResource : InteractableResource
 {
     [Export] public Texture2D Texture { get; private set; }
     [Export] public string Name { get; private set; }

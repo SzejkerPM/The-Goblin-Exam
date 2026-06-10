@@ -3,14 +3,15 @@
 [ext_resource type="Script" uid="uid://mibyvvr2bjok" path="res://scripts/Game.cs" id="1_3dryh"]
 [ext_resource type="PackedScene" uid="uid://bdboyabfpl7sm" path="res://scenes/collectibles/collectible_spawner.tscn" id="1_u5sy4"]
 [ext_resource type="PackedScene" uid="uid://c5kj5446llr3j" path="res://scenes/GameUi.tscn" id="1_wrm1d"]
-[ext_resource type="Script" uid="uid://bysmghtgaleer" path="res://Resources/Collectibles/CollectibleResource.cs" id="2_gee14"]
 [ext_resource type="Texture2D" uid="uid://cqiul3jxnwji1" path="res://assets/2D Pixel Dungeon Asset Pack/character and tileset/Dungeon_Tileset.png" id="2_wrm1d"]
 [ext_resource type="Resource" uid="uid://bbsigqfjcg1uf" path="res://Resources/Collectibles/gold_pile_big.tres" id="3_0tnpc"]
 [ext_resource type="PackedScene" uid="uid://b27eu2i3usdul" path="res://scenes/Player.tscn" id="3_wrm1d"]
+[ext_resource type="Script" uid="uid://dmj30xuvvev3t" path="res://Resources/InteractableResource.cs" id="4_dinhu"]
 [ext_resource type="Resource" uid="uid://cfvaclnb8ic2h" path="res://Resources/Collectibles/gold_pile_small.tres" id="4_vtaks"]
 [ext_resource type="PackedScene" uid="uid://cs42ygss6w5cg" path="res://scenes/collectibles/collectible_marker.tscn" id="5_kvpfn"]
+[ext_resource type="Resource" uid="uid://ct1gl52gfaape" path="res://Resources/Openables/chest.tres" id="7_kvuet"]
 [ext_resource type="PackedScene" uid="uid://btm6hbe3yvrdd" path="res://scenes/EnemyAi.tscn" id="10_vtaks"]
-[ext_resource type="PackedScene" uid="uid://d4japvh0hhkg1" path="res://scenes/shopkeeper.tscn" id="11_kvpfn"]
+[ext_resource type="PackedScene" path="res://scenes/shopkeeper.tscn" id="11_kvpfn"]
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_e2o6t"]
 polygon = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
@@ -250,20 +251,19 @@ fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(0.5, 0)
 metadata/_snap_enabled = true
 
-[node name="Game" type="Node2D" unique_id=1641961366 node_paths=PackedStringArray("_gameUi", "_player", "_shopkeeper")]
+[node name="Game" type="Node2D" unique_id=1641961366 node_paths=PackedStringArray("_gameUi", "_player")]
 texture_filter = 1
 texture_repeat = 1
 script = ExtResource("1_3dryh")
 _gameUi = NodePath("GameUi")
 _player = NodePath("Player")
-_shopkeeper = NodePath("Shopkeeper")
 
 [node name="GameUi" parent="." unique_id=1961520047 instance=ExtResource("1_wrm1d")]
 
 [node name="CollectibleSpawner" parent="." unique_id=1877970303 node_paths=PackedStringArray("MarkersParent", "SpawnParent") instance=ExtResource("1_u5sy4")]
 MarkersParent = NodePath("../CollectibleMarkers")
 SpawnParent = NodePath("../Objects")
-Collectibles = Array[ExtResource("2_gee14")]([ExtResource("3_0tnpc"), ExtResource("4_vtaks"), ExtResource("4_vtaks"), ExtResource("3_0tnpc"), ExtResource("4_vtaks"), ExtResource("4_vtaks"), ExtResource("3_0tnpc")])
+Collectibles = Array[ExtResource("4_dinhu")]([ExtResource("4_vtaks"), ExtResource("4_vtaks"), ExtResource("4_vtaks"), ExtResource("4_vtaks"), ExtResource("3_0tnpc"), ExtResource("7_kvuet")])
 
 [node name="CollectibleMarkers" type="Node" parent="." unique_id=469165547]
 

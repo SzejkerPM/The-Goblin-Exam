@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="OpenableResource" format=3 uid="uid://ct1gl52gfaape"]
+
+[ext_resource type="Script" uid="uid://bysmghtgaleer" path="res://Resources/Collectibles/CollectibleResource.cs" id="1_61dyn"]
+[ext_resource type="Script" uid="uid://bix7d8hfkat3v" path="res://Resources/Openables/OpenableResource.cs" id="2_ovwnp"]
+[ext_resource type="Resource" uid="uid://cfvaclnb8ic2h" path="res://Resources/Collectibles/gold_pile_small.tres" id="2_xdada"]
+[ext_resource type="Texture2D" uid="uid://bcuts2ibyynd2" path="res://assets/2D Pixel Dungeon Asset Pack/items and trap_animation/chest/chest_3.png" id="3_q0ymk"]
+
+[resource]
+script = ExtResource("2_ovwnp")
+Texture = ExtResource("3_q0ymk")
+Collectibles = Array[ExtResource("1_61dyn")]([ExtResource("2_xdada"), ExtResource("2_xdada"), ExtResource("2_xdada")])
+metadata/_custom_type_script = "uid://bix7d8hfkat3v"

@@ -5,13 +5,20 @@
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_2tekd"]
 
-[node name="Collectible" type="Area2D" unique_id=1698488591 groups=["Collectibles"]]
+[node name="Collectible" type="CharacterBody2D" unique_id=1698488591 groups=["Collectibles"]]
 collision_layer = 4
-collision_mask = 0
+motion_mode = 1
 script = ExtResource("1_46ifn")
 
 [node name="Sprite" type="Sprite2D" parent="." unique_id=1110739204]
 texture = ExtResource("2_om321")
 
 [node name="CollisionShape" type="CollisionShape2D" parent="." unique_id=1551515560]
+shape = SubResource("CircleShape2D_2tekd")
+
+[node name="InteractionArea" type="Area2D" parent="." unique_id=1551515561]
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea" unique_id=1551515562]
 shape = SubResource("CircleShape2D_2tekd")

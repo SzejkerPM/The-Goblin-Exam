@@ -151,8 +151,6 @@ shape = SubResource("CircleShape2D_0ggj7")
 path_desired_distance = 2.0
 target_desired_distance = 6.0
 path_postprocessing = 1
-debug_enabled = true
-debug_use_custom = true
 debug_path_custom_color = Color(0.15075254, 0.38505822, 1, 1)
 
 [node name="FacingPivot" type="Node2D" parent="." unique_id=79833775]

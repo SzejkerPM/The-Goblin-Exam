@@ -43,11 +43,18 @@ public partial class Player : CharacterBody2D
 
     private void OnInteractionZoneAreaEntered(Node2D node)
     {
-        if (node is IInteractable interactable)
-        {
-            if (node is Collectible && !_inventory.CanAddItems()) return;
-            if (node is Shopkeeper && _inventory.IsInventoryEmpty()) return;
+        IInteractable interactable = GetInteractibleOrNull(node);
 
+        if (interactable != null)
+        {
+            if (interactable is Collectible && !_inventory.CanAddItems())
+            {
+                return;
+            }
+            if (interactable is Shopkeeper && _inventory.IsInventoryEmpty())
+            {
+                return;
+            }
             _currentInteractable = interactable;
             interactable.Highlight(true);
             EmitSignal(SignalName.InteractionAreaEntered, interactable.InteractionPrompt);
@@ -56,8 +63,8 @@ public partial class Player : CharacterBody2D
 
     private void OnInteractionZoneAreaExited(Node2D node)
     {
-        if (node is IInteractable interactable)
-        {
+        IInteractable interactable = GetInteractibleOrNull(node);
+        
             if (_currentInteractable == interactable)
             {
                 _currentInteractable = null;
@@ -65,7 +72,7 @@ public partial class Player : CharacterBody2D
 
             interactable.Highlight(false);
             EmitSignal(SignalName.InteractionAreaExited);
-        }
+        
     }
 
     private Vector2 GetDirectionFromInput()
@@ -95,6 +102,22 @@ public partial class Player : CharacterBody2D
         MoveAndSlide();
     }
 
+
+    private IInteractable GetInteractibleOrNull(Node node)
+    {
+        if (node is IInteractable i)
+        {
+            return i;
+        }
+
+        if (node.GetParent() is IInteractable pi)
+        {
+            return pi;
+        }
+
+        return null;
+    }
+
     private void UpdateAnimation(Vector2 direction)
     {
         if (direction.X < 0)
@@ -114,19 +137,28 @@ public partial class Player : CharacterBody2D
         {
             _animatedSprite.Play("running");
         }
+
     }
 
     private void InteractWithInteractable()
     {
         if (Input.IsActionJustPressed("interact"))
         {
+            if (_currentInteractable == null) return;
+
             if (_currentInteractable is Collectible collectible)
             {
                 var item = collectible.CollectibleResource;
-                _currentInteractable?.Interact();
                 _inventory.AddItemToInventory(item);
+                _currentInteractable.Interact();
                 _currentInteractable = null;
             }
+            else if (_currentInteractable is Openable openable)
+            {
+                openable.Interact();
+                _currentInteractable = null;
+            }
+
             else if (_currentInteractable is Shopkeeper shopkeeper)
             {
                 var itemsValue = _inventory.CountItemsValue();

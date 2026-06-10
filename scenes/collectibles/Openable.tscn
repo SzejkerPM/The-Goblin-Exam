@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://dnskh2w5eq0s7"]
+
+[ext_resource type="Script" uid="uid://bgy6jbgyoke1o" path="res://scenes/collectibles/Openable.cs" id="1_rb268"]
+[ext_resource type="Texture2D" uid="uid://bn6ea7by7k6qv" path="res://assets/2D Pixel Dungeon Asset Pack/items and trap_animation/chest/chest_open_4.png" id="2_eqc8p"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_2tekd"]
+
+[node name="Openable" type="Area2D" unique_id=1698488591 groups=["Collectibles"]]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("1_rb268")
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=1110739204]
+texture = ExtResource("2_eqc8p")
+
+[node name="CollisionShape" type="CollisionShape2D" parent="." unique_id=1551515560]
+shape = SubResource("CircleShape2D_2tekd")
