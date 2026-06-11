@@ -59,8 +59,14 @@ public partial class Game : Node2D
     {
         if (gold >= _goldNeededForNextLevel)
         {
-            _doorOpen = true;
+            _doorOpen = true; // TODO change to door logic
         }
+    }
+
+    private void LoadNextLevel()
+    {
+        // TODO Load level
+        _inventory.ResetGoldOnNewLevel();
     }
 
     private void InitializeConnections()

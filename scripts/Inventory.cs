@@ -8,6 +8,7 @@ public partial class Inventory : Node
 {
     [Signal]
     public delegate void GoldChangedEventHandler(int gold);
+
     public int Gold { get; private set; }
 
     private Sprite2D[] _inventorySprites;
@@ -61,6 +62,11 @@ public partial class Inventory : Node
     {
         Gold += gold;
         EmitSignal(SignalName.GoldChanged, Gold);
+    }
+
+    public void ResetGoldOnNewLevel()
+    {
+        Gold = 0;
     }
 
     private void SetUpInventorySprites()
