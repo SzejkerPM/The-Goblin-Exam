@@ -263,4 +263,4 @@ shadow_enabled = true
 texture = SubResource("GradientTexture2D_d6i3l")
 
 [node name="Player" parent="." unique_id=2014180960 instance=ExtResource("2_17vp5")]
-position = Vector2(925, 135)
+position = Vector2(383, 423)

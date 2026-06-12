@@ -4,16 +4,12 @@ using Godot.Collections;
 [GlobalClass]
 public partial class CollectibleSpawner : Node2D
 {
+    [Export] private Node MarkersParent { get; set; }
 
-    [Export]
-    private Node MarkersParent { get; set; }
-    
-    [Export]
-    private Node SpawnParent { get; set; }
-    
-    [Export]
-    private Array<InteractableResource> Collectibles { get; set; } = new();
-    
+    [Export] private Node SpawnParent { get; set; }
+
+    [Export] private Array<InteractableResource> Collectibles { get; set; } = new();
+
     private PackedScene _collectibleScene = GD.Load<PackedScene>("res://scenes/collectibles/Collectible.tscn");
     private PackedScene _openableScene = GD.Load<PackedScene>("res://scenes/collectibles/Openable.tscn");
 
@@ -21,17 +17,17 @@ public partial class CollectibleSpawner : Node2D
     {
         SpawnCollectibles();
     }
-    
+
     public void SpawnCollectibles()
     {
-        var markers = getMarkers();
+        var markers = GetMarkers();
         var interactables = new Array<InteractableResource>(Collectibles);
 
         markers.Shuffle();
         interactables.Shuffle();
 
         var count = Mathf.Min(markers.Count, interactables.Count);
-        
+
         GD.Print($"Spawning {count} interactables...");
 
         for (int i = 0; i < count; i++)
@@ -40,7 +36,7 @@ public partial class CollectibleSpawner : Node2D
             var resource = interactables[i];
             SpawnInteractable(marker, resource);
         }
-        
+
         HideMarkers(markers);
     }
 
@@ -53,7 +49,7 @@ public partial class CollectibleSpawner : Node2D
         collectible.Init(resource);
         return collectible;
     }
-    
+
     public void SpawnOpenable(Vector2 globalPosition, OpenableResource resource)
     {
         GD.Print($"Spawning openable at {globalPosition}");
@@ -76,10 +72,10 @@ public partial class CollectibleSpawner : Node2D
             var collectible = SpawnCollectible(openable.GlobalPosition, collectibleResource);
             var forceDirection = Vector2.Up.Rotated(random.RandfRange(-Mathf.Pi / 2, Mathf.Pi / 2));
             var forceMagnitude = random.RandfRange(70f, 150f);
-            
+
             collectible.ApplyImpulse(forceDirection * forceMagnitude);
         }
-        
+
         openable.Opened -= OnOpenableOpened;
     }
 
@@ -95,10 +91,10 @@ public partial class CollectibleSpawner : Node2D
         }
     }
 
-    private Array<CollectibleMarker> getMarkers()
+    private Array<CollectibleMarker> GetMarkers()
     {
         var markers = new Array<CollectibleMarker>();
-        
+
         foreach (var child in MarkersParent.GetChildren())
         {
             if (child is CollectibleMarker marker)
@@ -106,6 +102,7 @@ public partial class CollectibleSpawner : Node2D
                 markers.Add(marker);
             }
         }
+
         return markers;
     }
 

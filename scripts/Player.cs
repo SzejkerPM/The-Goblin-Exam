@@ -43,7 +43,7 @@ public partial class Player : CharacterBody2D
 
     private void OnInteractionZoneAreaEntered(Node2D node)
     {
-        IInteractable interactable = GetInteractibleOrNull(node);
+        IInteractable interactable = GetInteractableOrNull(node);
 
         if (interactable != null)
         {
@@ -51,10 +51,12 @@ public partial class Player : CharacterBody2D
             {
                 return;
             }
+
             if (interactable is Shopkeeper && _inventory.IsInventoryEmpty())
             {
                 return;
             }
+
             _currentInteractable = interactable;
             interactable.Highlight(true);
             EmitSignal(SignalName.InteractionAreaEntered, interactable.InteractionPrompt);
@@ -63,8 +65,10 @@ public partial class Player : CharacterBody2D
 
     private void OnInteractionZoneAreaExited(Node2D node)
     {
-        IInteractable interactable = GetInteractibleOrNull(node);
-        
+        IInteractable interactable = GetInteractableOrNull(node);
+
+        if (interactable != null)
+        {
             if (_currentInteractable == interactable)
             {
                 _currentInteractable = null;
@@ -72,7 +76,7 @@ public partial class Player : CharacterBody2D
 
             interactable.Highlight(false);
             EmitSignal(SignalName.InteractionAreaExited);
-        
+        }
     }
 
     private Vector2 GetDirectionFromInput()
@@ -103,7 +107,7 @@ public partial class Player : CharacterBody2D
     }
 
 
-    private IInteractable GetInteractibleOrNull(Node node)
+    private IInteractable GetInteractableOrNull(Node node)
     {
         if (node is IInteractable i)
         {
@@ -137,7 +141,6 @@ public partial class Player : CharacterBody2D
         {
             _animatedSprite.Play("running");
         }
-
     }
 
     private void InteractWithInteractable()
@@ -171,6 +174,10 @@ public partial class Player : CharacterBody2D
                     shopkeeper.UpdatePlayerGold(_inventory.Gold);
                     _currentInteractable?.Interact();
                 }
+            }
+            else if (_currentInteractable is Door)
+            {
+                _currentInteractable?.Interact();
             }
         }
     }

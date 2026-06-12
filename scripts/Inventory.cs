@@ -64,11 +64,6 @@ public partial class Inventory : Node
         EmitSignal(SignalName.GoldChanged, Gold);
     }
 
-    public void ResetGoldOnNewLevel()
-    {
-        Gold = 0;
-    }
-
     private void SetUpInventorySprites()
     {
         for (int i = 0; i < _inventory.Count && i < _inventorySprites.Length; i++)

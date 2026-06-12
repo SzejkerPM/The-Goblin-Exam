@@ -9,9 +9,9 @@
 [ext_resource type="Script" uid="uid://dmj30xuvvev3t" path="res://Resources/InteractableResource.cs" id="4_dinhu"]
 [ext_resource type="Resource" uid="uid://cfvaclnb8ic2h" path="res://Resources/Collectibles/gold_pile_small.tres" id="4_vtaks"]
 [ext_resource type="PackedScene" uid="uid://cs42ygss6w5cg" path="res://scenes/collectibles/collectible_marker.tscn" id="5_kvpfn"]
-[ext_resource type="Resource" uid="uid://ct1gl52gfaape" path="res://Resources/Openables/chest.tres" id="7_kvuet"]
+[ext_resource type="PackedScene" uid="uid://blmoel3cyo5qh" path="res://scenes/door.tscn" id="9_0tnpc"]
 [ext_resource type="PackedScene" uid="uid://btm6hbe3yvrdd" path="res://scenes/EnemyAi.tscn" id="10_vtaks"]
-[ext_resource type="PackedScene" path="res://scenes/shopkeeper.tscn" id="11_kvpfn"]
+[ext_resource type="PackedScene" uid="uid://d4japvh0hhkg1" path="res://scenes/shopkeeper.tscn" id="11_kvpfn"]
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_e2o6t"]
 polygon = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
@@ -251,19 +251,21 @@ fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(0.5, 0)
 metadata/_snap_enabled = true
 
-[node name="Game" type="Node2D" unique_id=1641961366 node_paths=PackedStringArray("_gameUi", "_player")]
+[node name="Game" type="Node2D" unique_id=1641961366 node_paths=PackedStringArray("_gameUi", "_player", "_shopkeeper")]
 texture_filter = 1
 texture_repeat = 1
 script = ExtResource("1_3dryh")
 _gameUi = NodePath("GameUi")
 _player = NodePath("Player")
+_shopkeeper = NodePath("Shopkeeper")
+_nextLevelPath = "uid://bkg846qb0hqol"
 
 [node name="GameUi" parent="." unique_id=1961520047 instance=ExtResource("1_wrm1d")]
 
 [node name="CollectibleSpawner" parent="." unique_id=1877970303 node_paths=PackedStringArray("MarkersParent", "SpawnParent") instance=ExtResource("1_u5sy4")]
 MarkersParent = NodePath("../CollectibleMarkers")
 SpawnParent = NodePath("../Objects")
-Collectibles = Array[ExtResource("4_dinhu")]([ExtResource("4_vtaks"), ExtResource("4_vtaks"), ExtResource("4_vtaks"), ExtResource("4_vtaks"), ExtResource("3_0tnpc"), ExtResource("7_kvuet")])
+Collectibles = Array[ExtResource("4_dinhu")]([ExtResource("3_0tnpc"), ExtResource("3_0tnpc"), ExtResource("4_vtaks"), ExtResource("3_0tnpc"), ExtResource("3_0tnpc"), ExtResource("4_vtaks"), ExtResource("4_vtaks"), ExtResource("3_0tnpc")])
 
 [node name="CollectibleMarkers" type="Node" parent="." unique_id=469165547]
 
@@ -331,13 +333,6 @@ scale = Vector2(1.9200025, 1.9200025)
 shadow_enabled = true
 texture = SubResource("GradientTexture2D_feb5d")
 
-[node name="Player" parent="." unique_id=2014180960 groups=["player"] instance=ExtResource("3_wrm1d")]
-position = Vector2(69, 70)
-
-[node name="DefaultCamera" type="Camera2D" parent="Player" unique_id=605789564]
-zoom = Vector2(4, 4)
-position_smoothing_enabled = true
-
 [node name="enemyMarkers" type="Node" parent="." unique_id=378890038]
 
 [node name="MarkerA" type="Marker2D" parent="enemyMarkers" unique_id=960686369]
@@ -359,4 +354,11 @@ MaxChaseTime = 10.0
 _points = [NodePath("../enemyMarkers/MarkerA"), NodePath("../enemyMarkers/MarkerB")]
 
 [node name="Shopkeeper" parent="." unique_id=1946631433 instance=ExtResource("11_kvpfn")]
-position = Vector2(307, 42)
+position = Vector2(301, 56)
+
+[node name="Door" parent="." unique_id=48633109 instance=ExtResource("9_0tnpc")]
+position = Vector2(337, 8)
+
+[node name="Player" parent="." unique_id=2014180960 instance=ExtResource("3_wrm1d")]
+z_index = 0
+position = Vector2(73, 76)

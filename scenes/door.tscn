@@ -1,11 +1,15 @@
 [gd_scene format=3 uid="uid://blmoel3cyo5qh"]
 
+[ext_resource type="Script" uid="uid://c2266a8c3p3db" path="res://scripts/Door.cs" id="1_uvdjg"]
 [ext_resource type="Texture2D" uid="uid://dhhsltecspy7g" path="res://assets/2D Pixel Dungeon Asset Pack/character and tileset/door.tres" id="1_w6aom"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_w6aom"]
 size = Vector2(46, 23)
 
-[node name="Door" type="Area2D" unique_id=48633109]
+[node name="Door" type="Area2D" unique_id=48633109 groups=["door"]]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("1_uvdjg")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=895198616]
 texture = ExtResource("1_w6aom")
