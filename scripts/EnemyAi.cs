@@ -3,6 +3,9 @@ using Godot.Collections;
 
 public partial class EnemyAi : CharacterBody2D
 {
+    [Signal]
+    public delegate void PlayerCaughtEventHandler();
+
     [Export] private float Speed = 40f;
     [Export] private float ChaseSpeed = 65f;
     [Export] private float MarkerReachDistance = 6f;
@@ -30,6 +33,7 @@ public partial class EnemyAi : CharacterBody2D
     private bool _isWaitingAtPoint;
     private bool _isSearchingLastSeenPosition;
     private bool _hasReachedMaxChaseTime;
+    private bool _hasCaughtPlayer;
 
     private float _timeSinceLastVisible = float.MaxValue;
 
@@ -63,11 +67,13 @@ public partial class EnemyAi : CharacterBody2D
         }
 
         foreach (var point in _points)
+        {
             if (point == null)
             {
                 GD.PrintErr("One of the patrol points is null.");
                 return;
             }
+        }
 
         _agent.PathDesiredDistance = 6.0f;
         _agent.TargetDesiredDistance = 6.0f;
@@ -111,13 +117,17 @@ public partial class EnemyAi : CharacterBody2D
 
     public override void _PhysicsProcess(double delta)
     {
+        if (_hasCaughtPlayer)
+            return;
+
         if (_agent == null || _points == null || _points.Length == 0)
             return;
 
         if (NavigationServer2D.MapGetIterationId(_agent.GetNavigationMap()) == 0)
             return;
 
-        if (_player != null && !IsInstanceValid(_player)) ClearPlayerTracking();
+        if (_player != null && !IsInstanceValid(_player))
+            ClearPlayerTracking();
 
         var playerVisible =
             !_hasReachedMaxChaseTime &&
@@ -149,7 +159,7 @@ public partial class EnemyAi : CharacterBody2D
 
         if (_hasConfirmedSight && _player != null)
         {
-            if (_loseSightTimer.IsStopped())
+            if (_loseSightTimer.IsStopped() && _loseSightTimer.IsInsideTree())
                 _loseSightTimer.Start();
 
             _isSearchingLastSeenPosition = true;
@@ -164,6 +174,26 @@ public partial class EnemyAi : CharacterBody2D
         Patrol();
     }
 
+    private void CheckPlayerCollision()
+    {
+        if (_hasCaughtPlayer)
+            return;
+
+        for (int i = 0; i < GetSlideCollisionCount(); i++)
+        {
+            var collision = GetSlideCollision(i);
+            var collider = collision.GetCollider() as Node;
+
+            if (collider != null && collider.IsInGroup("player"))
+            {
+                _hasCaughtPlayer = true;
+                Velocity = Vector2.Zero;
+                EmitSignal(SignalName.PlayerCaught);
+                return;
+            }
+        }
+    }
+
     private void ChaseLastSeenPosition()
     {
         _isWaitingAtPoint = false;
@@ -171,7 +201,7 @@ public partial class EnemyAi : CharacterBody2D
         _patrolTimer.Stop();
         _loseSightTimer.Stop();
 
-        if (_maxChaseTimer.IsStopped())
+        if (_maxChaseTimer.IsStopped() && _maxChaseTimer.IsInsideTree())
             _maxChaseTimer.Start();
 
         if (_currentTargetPosition.DistanceTo(_lastSeenPlayerPosition) >= TargetRefreshDistance)
@@ -185,7 +215,7 @@ public partial class EnemyAi : CharacterBody2D
         _isWaitingAtPoint = false;
         _patrolTimer.Stop();
 
-        if (_maxChaseTimer.IsStopped() && !_hasReachedMaxChaseTime)
+        if (_maxChaseTimer.IsStopped() && !_hasReachedMaxChaseTime && _maxChaseTimer.IsInsideTree())
             _maxChaseTimer.Start();
 
         SetAgentTarget(_lastSeenPlayerPosition);
@@ -206,6 +236,7 @@ public partial class EnemyAi : CharacterBody2D
             Velocity = Vector2.Zero;
             UpdateFacingVisuals();
             MoveAndSlide();
+            CheckPlayerCollision();
             return;
         }
 
@@ -230,7 +261,10 @@ public partial class EnemyAi : CharacterBody2D
         Velocity = Vector2.Zero;
         UpdateFacingVisuals();
         MoveAndSlide();
-        _patrolTimer.Start();
+        CheckPlayerCollision();
+
+        if (_patrolTimer.IsInsideTree())
+            _patrolTimer.Start();
     }
 
     private void EndSearchAndResumePatrol()
@@ -319,6 +353,7 @@ public partial class EnemyAi : CharacterBody2D
             Velocity = Vector2.Zero;
             UpdateFacingVisuals();
             MoveAndSlide();
+            CheckPlayerCollision();
             return;
         }
 
@@ -331,6 +366,7 @@ public partial class EnemyAi : CharacterBody2D
 
         UpdateFacingVisuals();
         MoveAndSlide();
+        CheckPlayerCollision();
     }
 
     private void UpdateFacingVisuals()
@@ -396,7 +432,7 @@ public partial class EnemyAi : CharacterBody2D
 
     private void OnVisionBodyEntered(Node2D body)
     {
-        if (_hasReachedMaxChaseTime)
+        if (_hasReachedMaxChaseTime || _hasCaughtPlayer)
             return;
 
         if (!body.IsInGroup("player"))
@@ -408,6 +444,12 @@ public partial class EnemyAi : CharacterBody2D
 
     private void OnVisionBodyExited(Node2D body)
     {
+        if (!IsInsideTree())
+            return;
+
+        if (_loseSightTimer == null || !_loseSightTimer.IsInsideTree())
+            return;
+
         if (body != _player)
             return;
 

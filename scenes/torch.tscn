@@ -1,0 +1,51 @@
+[gd_scene format=3 uid="uid://clvbfhllopw6n"]
+
+[ext_resource type="Texture2D" uid="uid://bc8jnruylsu1r" path="res://assets/2D Pixel Dungeon Asset Pack/items and trap_animation/torch/torch_1.png" id="1_r3k50"]
+[ext_resource type="Texture2D" uid="uid://dn7hpwc41y76e" path="res://assets/2D Pixel Dungeon Asset Pack/items and trap_animation/torch/torch_2.png" id="2_ndh0a"]
+[ext_resource type="Texture2D" uid="uid://d3rh6gnx1oko4" path="res://assets/2D Pixel Dungeon Asset Pack/items and trap_animation/torch/torch_3.png" id="3_ktql7"]
+[ext_resource type="Texture2D" uid="uid://7os0g08t42g0" path="res://assets/2D Pixel Dungeon Asset Pack/items and trap_animation/torch/torch_4.png" id="4_gybtl"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_21l5o"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_r3k50")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_ndh0a")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_ktql7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_gybtl")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Gradient" id="Gradient_0hp66"]
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_r3k50"]
+gradient = SubResource("Gradient_0hp66")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0)
+metadata/_snap_enabled = true
+
+[node name="Torch" type="Node2D" unique_id=1770927243]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1337743897]
+position = Vector2(0, -7)
+sprite_frames = SubResource("SpriteFrames_21l5o")
+autoplay = "default"
+
+[node name="TorchesLight4" type="PointLight2D" parent="." unique_id=162930522]
+position = Vector2(0, -3)
+scale = Vector2(1.9200025, 1.9200025)
+color = Color(1.1170132, 0.656229, 0, 1)
+energy = 2.0
+shadow_enabled = true
+texture = SubResource("GradientTexture2D_r3k50")

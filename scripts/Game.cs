@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Godot;
 using TheGoblinExam.scripts;
 
@@ -15,13 +16,18 @@ public partial class Game : Node2D
     private Inventory _inventory;
 
     private bool _doorOpen;
+    private bool _isGameOver;
+
+    private readonly List<EnemyAi> _enemies = new();
 
     public override void _Ready()
     {
         _stamina = _player.GetNode<Stamina>("Stamina");
         _inventory = _player.GetNode<Inventory>("Inventory");
+
         InitializeConnections();
-        _shopkeeper.Initialize(_goldNeededForNextLevel);
+        ConnectEnemies();
+        _shopkeeper?.Initialize(_goldNeededForNextLevel);
     }
 
     public override void _ExitTree()
@@ -45,6 +51,12 @@ public partial class Game : Node2D
             GD.PushWarning("Game.cs: Failed to disconnect events between Player and GameUI (null reference).");
         }
 
+        foreach (var enemy in _enemies)
+        {
+            if (enemy != null)
+                enemy.PlayerCaught -= OnPlayerCaught;
+        }
+
         if (_inventory != null)
         {
             _inventory.GoldChanged -= OnGoldChanged;
@@ -52,6 +64,45 @@ public partial class Game : Node2D
         else
         {
             GD.PushWarning("Game.cs: Failed to disconnect events between Inventory and Game (null reference).");
+        }
+    }
+
+    private void InitializeConnections()
+    {
+        if (_stamina != null && _gameUi != null)
+            _stamina.StaminaChanged += _gameUi.OnStaminaChanged;
+        else
+            GD.PrintErr("Game.cs: Could not connect stamina to UI.");
+
+        if (_player != null && _gameUi != null)
+        {
+            _player.InteractionAreaEntered += _gameUi.ShowEKeyContainer;
+            _player.InteractionAreaExited += _gameUi.HideEKeyContainer;
+        }
+        else
+        {
+            GD.PrintErr("Game.cs: Could not connect player interaction events to UI.");
+        }
+
+        if (_inventory != null)
+        {
+            _inventory.GoldChanged += OnGoldChanged;
+        }
+        else
+        {
+            GD.PrintErr("Game.cs: Could not connect inventory gold event.");
+        }
+    }
+
+    private void ConnectEnemies()
+    {
+        foreach (var child in GetTree().GetNodesInGroup("enemy"))
+        {
+            if (child is EnemyAi enemy)
+            {
+                enemy.PlayerCaught += OnPlayerCaught;
+                _enemies.Add(enemy);
+            }
         }
     }
 
@@ -63,11 +114,13 @@ public partial class Game : Node2D
         }
     }
 
-    private void InitializeConnections()
+    private void OnPlayerCaught()
     {
-        _stamina.StaminaChanged += _gameUi.OnStaminaChanged;
-        _player.InteractionAreaEntered += _gameUi.ShowEKeyContainer;
-        _player.InteractionAreaExited += _gameUi.HideEKeyContainer;
-        _inventory.GoldChanged += OnGoldChanged;
+        if (_isGameOver)
+            return;
+
+        _isGameOver = true;
+        GetTree().Paused = true;
+        _gameUi?.ShowDeathScreen();
     }
 }
