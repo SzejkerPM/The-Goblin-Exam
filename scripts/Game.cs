@@ -1,4 +1,5 @@
 using Godot;
+using System.Collections.Generic;
 using TheGoblinExam.scripts;
 
 namespace TheGoblinExam.Scripts;
@@ -16,11 +17,15 @@ public partial class Game : Node2D
 
     private bool _doorOpen;
 
+    private readonly List<EnemyAi> _enemies = new();
+    private bool _isGameOver;
+
     public override void _Ready()
     {
         _stamina = _player.GetNode<Stamina>("Stamina");
         _inventory = _player.GetNode<Inventory>("Inventory");
         InitializeConnections();
+        ConnectEnemies();
         _shopkeeper.Initialize(_goldNeededForNextLevel);
     }
 
@@ -40,9 +45,11 @@ public partial class Game : Node2D
             _player.InteractionAreaEntered -= _gameUi.ShowEKeyContainer;
             _player.InteractionAreaExited -= _gameUi.HideEKeyContainer;
         }
-        else
+
+        foreach (var enemy in _enemies)
         {
-            GD.PushWarning("Game.cs: Failed to disconnect events between Player and GameUI (null reference).");
+            if (enemy != null)
+                enemy.PlayerCaught -= OnPlayerCaught;
         }
 
         if (_inventory != null)
@@ -65,9 +72,40 @@ public partial class Game : Node2D
 
     private void InitializeConnections()
     {
-        _stamina.StaminaChanged += _gameUi.OnStaminaChanged;
-        _player.InteractionAreaEntered += _gameUi.ShowEKeyContainer;
-        _player.InteractionAreaExited += _gameUi.HideEKeyContainer;
-        _inventory.GoldChanged += OnGoldChanged;
+        if (_stamina != null && _gameUi != null)
+            _stamina.StaminaChanged += _gameUi.OnStaminaChanged;
+        else
+            GD.PrintErr("Game.cs: Could not connect stamina to UI.");
+
+        if (_player != null && _gameUi != null)
+        {
+            _player.InteractionAreaEntered += _gameUi.ShowEKeyContainer;
+            _player.InteractionAreaExited += _gameUi.HideEKeyContainer;
+        }
+
+        if (_inventory != null)
+            _inventory.GoldChanged += OnGoldChanged;
+    }
+
+    private void ConnectEnemies()
+    {
+        foreach (var child in GetTree().GetNodesInGroup("enemy"))
+        {
+            if (child is EnemyAi enemy)
+            {
+                enemy.PlayerCaught += OnPlayerCaught;
+                _enemies.Add(enemy);
+            }
+        }
+    }
+
+    private void OnPlayerCaught()
+    {
+        if (_isGameOver)
+            return;
+
+        _isGameOver = true;
+        GetTree().Paused = true;
+        _gameUi?.ShowDeathScreen();
     }
 }
