@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://btm6hbe3yvrdd"]
 
-[ext_resource type="Texture2D" uid="uid://diosofs5usp3c" path="res://assets/Tiny RPG Character Asset Pack v1.03b -Free Soldier&Orc/Characters(100x100)/Orc/Orc/Orc-Walk.png" id="1_4hi03"]
+[ext_resource type="Texture2D" uid="uid://diosofs5usp3c" path="res://assets/Tiny RPG Character Asset Pack v1.03b -Free Soldier&Orc/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Orc/Orc/Orc-Walk.png" id="1_4hi03"]
 [ext_resource type="Script" uid="uid://cn0qlx68hfa4" path="res://scripts/EnemyAi.cs" id="1_k6bqv"]
-[ext_resource type="Texture2D" uid="uid://dpnretfjl8esk" path="res://assets/Tiny RPG Character Asset Pack v1.03b -Free Soldier&Orc/Characters(100x100)/Orc/Orc/Orc-Idle.png" id="2_dq6xs"]
+[ext_resource type="Texture2D" uid="uid://dpnretfjl8esk" path="res://assets/Tiny RPG Character Asset Pack v1.03b -Free Soldier&Orc/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Orc/Orc/Orc-Idle.png" id="2_dq6xs"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xtiwg"]
 atlas = ExtResource("2_dq6xs")
