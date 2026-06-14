@@ -11,7 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://cs42ygss6w5cg" path="res://scenes/collectibles/collectible_marker.tscn" id="5_kvpfn"]
 [ext_resource type="Resource" uid="uid://ct1gl52gfaape" path="res://Resources/Openables/chest.tres" id="7_kvuet"]
 [ext_resource type="PackedScene" uid="uid://btm6hbe3yvrdd" path="res://scenes/EnemyAi.tscn" id="10_vtaks"]
-[ext_resource type="PackedScene" path="res://scenes/shopkeeper.tscn" id="11_kvpfn"]
+[ext_resource type="PackedScene" uid="uid://d4japvh0hhkg1" path="res://scenes/Shopkeeper.tscn" id="11_kvpfn"]
 [ext_resource type="PackedScene" path="res://scenes/DeathScreen.tscn" id="13_kvuet"]
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_e2o6t"]
@@ -365,4 +365,3 @@ _points = [NodePath("../enemyMarkers/MarkerA"), NodePath("../enemyMarkers/Marker
 position = Vector2(307, 42)
 
 [node name="DeathScreen" parent="." unique_id=165477240 instance=ExtResource("13_kvuet")]
-visible = false

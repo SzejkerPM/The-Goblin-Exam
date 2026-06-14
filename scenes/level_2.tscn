@@ -1,9 +1,9 @@
 [gd_scene format=4 uid="uid://6etob6kktl1n"]
 
-[ext_resource type="Texture2D" uid="uid://cqiul3jxnwji1" path="res://assets/2D Pixel Dungeon Asset Pack/character and tileset/Dungeon_Tileset.png" id="1_jm1iu"]
-[ext_resource type="PackedScene" uid="uid://b27eu2i3usdul" path="res://scenes/Player.tscn" id="2_pbc48"]
-[ext_resource type="PackedScene" uid="uid://clvbfhllopw6n" path="res://scenes/torch.tscn" id="3_pbc48"]
-[ext_resource type="PackedScene" uid="uid://btm6hbe3yvrdd" path="res://scenes/EnemyAi.tscn" id="4_eqxsl"]
+[ext_resource type="Texture2D" uid="uid://cqiul3jxnwji1" path="res://assets/2D Pixel Dungeon Asset Pack/character and tileset/Dungeon_Tileset.png" id="1_lkt8x"]
+[ext_resource type="PackedScene" uid="uid://b27eu2i3usdul" path="res://scenes/Player.tscn" id="2_uih6o"]
+[ext_resource type="PackedScene" uid="uid://clvbfhllopw6n" path="res://scenes/Torch.tscn" id="3_wl4sj"]
+[ext_resource type="PackedScene" uid="uid://btm6hbe3yvrdd" path="res://scenes/EnemyAi.tscn" id="4_knhd3"]
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_e2o6t"]
 polygon = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
@@ -45,7 +45,7 @@ outlines = Array[PackedVector2Array]([PackedVector2Array(-8, -8, 8, -8, 8, 8, -8
 agent_radius = 0.0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_17vp5"]
-texture = ExtResource("1_jm1iu")
+texture = ExtResource("1_lkt8x")
 0:0/0 = 0
 0:0/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_e2o6t")
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
@@ -266,7 +266,7 @@ energy = 2.0
 shadow_enabled = true
 texture = SubResource("GradientTexture2D_d6i3l")
 
-[node name="Player" parent="." unique_id=2014180960 groups=["player"] instance=ExtResource("2_pbc48")]
+[node name="Player" parent="." unique_id=2014180960 groups=["player"] instance=ExtResource("2_uih6o")]
 position = Vector2(925, 135)
 
 [node name="DefaultCamera" type="Camera2D" parent="Player" unique_id=1301442895]
@@ -275,65 +275,69 @@ position_smoothing_enabled = true
 
 [node name="TORCHES" type="Node" parent="." unique_id=1415611632]
 
-[node name="Torch" parent="TORCHES" unique_id=1770927243 instance=ExtResource("3_pbc48")]
+[node name="Torch" parent="TORCHES" unique_id=1770927243 instance=ExtResource("3_wl4sj")]
 position = Vector2(97, 208)
 
-[node name="Torch2" parent="TORCHES" unique_id=1433039308 instance=ExtResource("3_pbc48")]
+[node name="Torch2" parent="TORCHES" unique_id=1433039308 instance=ExtResource("3_wl4sj")]
 position = Vector2(289, 304)
 
-[node name="Torch3" parent="TORCHES" unique_id=1397378929 instance=ExtResource("3_pbc48")]
+[node name="Torch3" parent="TORCHES" unique_id=1397378929 instance=ExtResource("3_wl4sj")]
 position = Vector2(1000, 417)
 
-[node name="Torch4" parent="TORCHES" unique_id=1483612861 instance=ExtResource("3_pbc48")]
+[node name="Torch4" parent="TORCHES" unique_id=1483612861 instance=ExtResource("3_wl4sj")]
 position = Vector2(965, 273)
 
-[node name="Torch5" parent="TORCHES" unique_id=1777016271 instance=ExtResource("3_pbc48")]
+[node name="Torch5" parent="TORCHES" unique_id=1777016271 instance=ExtResource("3_wl4sj")]
 position = Vector2(802, 417)
 
-[node name="Torch6" parent="TORCHES" unique_id=1073340186 instance=ExtResource("3_pbc48")]
+[node name="Torch6" parent="TORCHES" unique_id=1073340186 instance=ExtResource("3_wl4sj")]
 position = Vector2(610, 464)
 
-[node name="Torch7" parent="TORCHES" unique_id=264943144 instance=ExtResource("3_pbc48")]
+[node name="Torch7" parent="TORCHES" unique_id=264943144 instance=ExtResource("3_wl4sj")]
 position = Vector2(449, 432)
 
-[node name="Torch8" parent="TORCHES" unique_id=2081261453 instance=ExtResource("3_pbc48")]
+[node name="Torch8" parent="TORCHES" unique_id=2081261453 instance=ExtResource("3_wl4sj")]
 position = Vector2(754, 256)
 
-[node name="Torch9" parent="TORCHES" unique_id=1095914007 instance=ExtResource("3_pbc48")]
+[node name="Torch9" parent="TORCHES" unique_id=1095914007 instance=ExtResource("3_wl4sj")]
 position = Vector2(633, 65)
 
-[node name="Torch10" parent="TORCHES" unique_id=94385434 instance=ExtResource("3_pbc48")]
+[node name="Torch10" parent="TORCHES" unique_id=94385434 instance=ExtResource("3_wl4sj")]
 position = Vector2(314, 48)
 
-[node name="Torch11" parent="TORCHES" unique_id=1786351868 instance=ExtResource("3_pbc48")]
+[node name="Torch11" parent="TORCHES" unique_id=1786351868 instance=ExtResource("3_wl4sj")]
 position = Vector2(445, 188)
 
-[node name="Torch12" parent="TORCHES" unique_id=2075783635 instance=ExtResource("3_pbc48")]
+[node name="Torch12" parent="TORCHES" unique_id=2075783635 instance=ExtResource("3_wl4sj")]
 position = Vector2(478, 299)
 
-[node name="Torch13" parent="TORCHES" unique_id=152947200 instance=ExtResource("3_pbc48")]
+[node name="Torch13" parent="TORCHES" unique_id=152947200 instance=ExtResource("3_wl4sj")]
 position = Vector2(626, 304)
 
-[node name="Torch14" parent="TORCHES" unique_id=679305626 instance=ExtResource("3_pbc48")]
+[node name="Torch14" parent="TORCHES" unique_id=679305626 instance=ExtResource("3_wl4sj")]
 position = Vector2(274, 448)
 
-[node name="Torch15" parent="TORCHES" unique_id=1199039011 instance=ExtResource("3_pbc48")]
+[node name="Torch15" parent="TORCHES" unique_id=1199039011 instance=ExtResource("3_wl4sj")]
 position = Vector2(201, 178)
 
-[node name="enemyMarkers" type="Node" parent="." unique_id=11889174]
+[node name="enemynumerouno" type="Node" parent="." unique_id=11889174]
 
-[node name="MarkerA" type="Marker2D" parent="enemyMarkers" unique_id=176016880]
+[node name="MarkerA" type="Marker2D" parent="enemynumerouno" unique_id=176016880]
 position = Vector2(60, 272)
 
-[node name="MarkerA2" type="Marker2D" parent="enemyMarkers" unique_id=647503735]
+[node name="MarkerA2" type="Marker2D" parent="enemynumerouno" unique_id=647503735]
+visible = false
 position = Vector2(645, 127)
 
-[node name="MarkerA3" type="Marker2D" parent="enemyMarkers" unique_id=552046929]
+[node name="MarkerA3" type="Marker2D" parent="enemynumerouno" unique_id=552046929]
+visible = false
 position = Vector2(797, 488)
 
-[node name="MarkerA4" type="Marker2D" parent="enemyMarkers" unique_id=1448436631]
+[node name="MarkerA4" type="Marker2D" parent="enemynumerouno" unique_id=1448436631]
+visible = false
 position = Vector2(442, 511)
 
-[node name="Enemy" parent="." unique_id=1239395928 node_paths=PackedStringArray("_points") groups=["enemy"] instance=ExtResource("4_eqxsl")]
+[node name="Enemy" parent="enemynumerouno" unique_id=1239395928 node_paths=PackedStringArray("_points") groups=["enemy"] instance=ExtResource("4_knhd3")]
+visible = false
 position = Vector2(402, 333)
-_points = [NodePath("../enemyMarkers/MarkerA"), NodePath("../enemyMarkers/MarkerA2"), NodePath("../enemyMarkers/MarkerA3"), NodePath("../enemyMarkers/MarkerA4")]
+_points = [NodePath("../MarkerA"), NodePath("../MarkerA2"), NodePath("../MarkerA3"), NodePath("../MarkerA4")]
