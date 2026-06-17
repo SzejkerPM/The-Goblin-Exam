@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Godot;
 using TheGoblinExam.scripts;
 
@@ -17,6 +18,9 @@ public partial class Game : Node2D
     private Inventory _inventory;
 
     private Door _door;
+    private bool _isGameOver;
+
+    private readonly List<EnemyAi> _enemies = new();
 
     public override void _Ready()
     {
@@ -25,7 +29,8 @@ public partial class Game : Node2D
         FindDoorOnTree();
         CheckNextLevelPath();
         InitializeConnections();
-        _shopkeeper.Initialize(_goldNeededForNextLevel);
+        ConnectEnemies();
+        _shopkeeper?.Initialize(_goldNeededForNextLevel);
     }
 
     public override void _ExitTree()
@@ -47,6 +52,12 @@ public partial class Game : Node2D
         else
         {
             GD.PushWarning("Game.cs: Failed to disconnect events between Player and GameUI (null reference).");
+        }
+
+        foreach (var enemy in _enemies)
+        {
+            if (enemy != null)
+                enemy.PlayerCaught -= OnPlayerCaught;
         }
 
         if (_inventory != null)
@@ -106,5 +117,27 @@ public partial class Game : Node2D
         {
             throw new System.InvalidOperationException("Game.cs: Next Level Path is missing in Inspector!");
         }
+    }
+
+    private void ConnectEnemies()
+    {
+        foreach (var child in GetTree().GetNodesInGroup("enemy"))
+        {
+            if (child is EnemyAi enemy)
+            {
+                enemy.PlayerCaught += OnPlayerCaught;
+                _enemies.Add(enemy);
+            }
+        }
+    }
+
+    private void OnPlayerCaught()
+    {
+        if (_isGameOver)
+            return;
+
+        _isGameOver = true;
+        GetTree().Paused = true;
+        _gameUi?.ShowDeathScreen();
     }
 }

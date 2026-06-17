@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://blmoel3cyo5qh" path="res://scenes/door.tscn" id="9_0tnpc"]
 [ext_resource type="PackedScene" uid="uid://btm6hbe3yvrdd" path="res://scenes/EnemyAi.tscn" id="10_vtaks"]
 [ext_resource type="PackedScene" uid="uid://d4japvh0hhkg1" path="res://scenes/shopkeeper.tscn" id="11_kvpfn"]
+[ext_resource type="PackedScene" path="res://scenes/DeathScreen.tscn" id="13_kvuet"]
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_e2o6t"]
 polygon = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
@@ -260,7 +261,8 @@ _player = NodePath("Player")
 _shopkeeper = NodePath("Shopkeeper")
 _nextLevelPath = "uid://bkg846qb0hqol"
 
-[node name="GameUi" parent="." unique_id=1961520047 instance=ExtResource("1_wrm1d")]
+[node name="GameUi" parent="." unique_id=1961520047 node_paths=PackedStringArray("_deathScreen") instance=ExtResource("1_wrm1d")]
+_deathScreen = NodePath("../DeathScreen")
 
 [node name="CollectibleSpawner" parent="." unique_id=1877970303 node_paths=PackedStringArray("MarkersParent", "SpawnParent") instance=ExtResource("1_u5sy4")]
 MarkersParent = NodePath("../CollectibleMarkers")
@@ -347,7 +349,7 @@ position = Vector2(222, 224)
 [node name="MarkerD" type="Marker2D" parent="enemyMarkers" unique_id=1312417121]
 position = Vector2(334, 165)
 
-[node name="Enemy" parent="." unique_id=1239395928 node_paths=PackedStringArray("_points") instance=ExtResource("10_vtaks")]
+[node name="Enemy" parent="." unique_id=1239395928 node_paths=PackedStringArray("_points") groups=["enemy"] instance=ExtResource("10_vtaks")]
 position = Vector2(324, 174)
 LoseSightTime = 2.0
 MaxChaseTime = 10.0
@@ -362,3 +364,6 @@ position = Vector2(337, 8)
 [node name="Player" parent="." unique_id=2014180960 instance=ExtResource("3_wrm1d")]
 z_index = 0
 position = Vector2(73, 76)
+
+[node name="DeathScreen" parent="." unique_id=165477240 instance=ExtResource("13_kvuet")]
+visible = false

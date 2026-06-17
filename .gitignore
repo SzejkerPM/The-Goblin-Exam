@@ -15,3 +15,9 @@ export_credentials.cfg
 .mono/
 data_*/
 mono_crash.*.json
+<<<<<<< Updated upstream
+.idea/indexLayout.xml
+=======
+>>>>>>> Stashed changes
+.idea/workspace.xml
+.idea/projectSettingsUpdater.xml

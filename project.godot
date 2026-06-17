@@ -36,6 +36,7 @@ folder_colors={
 Collectibles=""
 player=""
 door=""
+enemy=""
 
 [gui]
 
