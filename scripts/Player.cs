@@ -12,8 +12,11 @@ public partial class Player : CharacterBody2D
     public delegate void InteractionAreaExitedEventHandler();
 
     [Export] private float _playerSpeed = 75f;
+    [Export] private float _playerMinSpeed = 25f;
     [Export] private float _playerSprintBonusSpeed = 25f;
+    [Export] private float _animationMinSpeed = 0.75f;
     [Export] private float _sprintAnimationScale = 1.35f;
+    [Export] private float _animationWeightDivider = 150f;
 
     private Stamina _stamina;
     private Inventory _inventory;
@@ -86,15 +89,18 @@ public partial class Player : CharacterBody2D
 
     private float GetMovementSpeed(Vector2 direction, double delta)
     {
-        var speed = _playerSpeed;
+        var itemsWeight = _inventory.Weight;
 
-        _animatedSprite.SpeedScale = 1.0f;
+        var speed = Mathf.Max(_playerSpeed - itemsWeight, _playerMinSpeed);
+
+        var animationSpeed = 1.0f - (itemsWeight / _animationWeightDivider);
+        _animatedSprite.SpeedScale = Mathf.Max(animationSpeed, _animationMinSpeed);
 
         if (Input.IsActionPressed("sprint") && direction != Vector2.Zero && _stamina.CanUseStamina())
         {
             speed += _playerSprintBonusSpeed;
             _stamina.ConsumeStamina(delta);
-            _animatedSprite.SpeedScale = _sprintAnimationScale;
+            _animatedSprite.SpeedScale *= _sprintAnimationScale;
         }
 
         return speed;

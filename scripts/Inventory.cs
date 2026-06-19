@@ -10,6 +10,7 @@ public partial class Inventory : Node
     public delegate void GoldChangedEventHandler(int gold);
 
     public int Gold { get; private set; }
+    public float Weight { get; private set; }
 
     private Sprite2D[] _inventorySprites;
     private readonly List<CollectibleResource> _inventory = [];
@@ -27,6 +28,7 @@ public partial class Inventory : Node
     public void AddItemToInventory(CollectibleResource item)
     {
         _inventory.Add(item);
+        Weight += item.Weight;
         SetUpInventorySprites();
     }
 
@@ -34,18 +36,7 @@ public partial class Inventory : Node
     {
         RemoveInventorySprites();
         _inventory.Clear();
-    }
-
-    public int CountItemsValue()
-    {
-        int value = 0;
-
-        foreach (var item in _inventory)
-        {
-            value += item.Value;
-        }
-
-        return value;
+        Weight = 0f;
     }
 
     public bool CanAddItems()
@@ -56,6 +47,18 @@ public partial class Inventory : Node
     public bool IsInventoryEmpty()
     {
         return _inventory.Count == 0;
+    }
+    
+    public int CountItemsValue()
+    {
+        int value = 0;
+
+        foreach (var item in _inventory)
+        {
+            value += item.Value;
+        }
+
+        return value;
     }
 
     public void AddGoldFromTransaction(int gold)
