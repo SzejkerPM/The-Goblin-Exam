@@ -10,7 +10,7 @@ public partial class Game : Node2D
 
     [Export] private GameUi _gameUi;
     [Export] private Player _player;
-    [Export] private Shopkeeper _shopkeeper;
+    [Export] private ShopkeeperSpawner _shopkeeperSpawner;
 
     [Export(PropertyHint.File, "*.tscn")] private string _nextLevelPath;
 
@@ -26,13 +26,17 @@ public partial class Game : Node2D
     {
         _stamina = _player.GetNode<Stamina>("Stamina");
         _inventory = _player.GetNode<Inventory>("Inventory");
+        _shopkeeperSpawner.SpawnShopkeeper(_goldNeededForNextLevel);
+        
         FindDoorOnTree();
         CheckNextLevelPath();
         InitializeConnections();
         ConnectEnemies();
-        _shopkeeper?.Initialize(_goldNeededForNextLevel);
-    }
 
+       
+
+    }
+    
     public override void _ExitTree()
     {
         if (_stamina != null && _gameUi != null)

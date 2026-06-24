@@ -9,10 +9,12 @@
 [ext_resource type="Script" uid="uid://dmj30xuvvev3t" path="res://Resources/InteractableResource.cs" id="4_dinhu"]
 [ext_resource type="Resource" uid="uid://cfvaclnb8ic2h" path="res://Resources/Collectibles/gold_pile_small.tres" id="4_vtaks"]
 [ext_resource type="PackedScene" uid="uid://cs42ygss6w5cg" path="res://scenes/collectibles/collectible_marker.tscn" id="5_kvpfn"]
+[ext_resource type="Resource" uid="uid://ct1gl52gfaape" path="res://Resources/Openables/chest.tres" id="7_kvuet"]
+[ext_resource type="PackedScene" uid="uid://bnrkrqj6mctxa" path="res://scenes/shopkeeper/shopkeeper_spawner.tscn" id="8_trtic"]
 [ext_resource type="PackedScene" uid="uid://blmoel3cyo5qh" path="res://scenes/door.tscn" id="9_0tnpc"]
+[ext_resource type="Script" uid="uid://dijtujx584y4b" path="res://scenes/shopkeeper/ShopkeeperMarker.cs" id="9_rysoc"]
 [ext_resource type="PackedScene" uid="uid://btm6hbe3yvrdd" path="res://scenes/EnemyAi.tscn" id="10_vtaks"]
-[ext_resource type="PackedScene" uid="uid://d4japvh0hhkg1" path="res://scenes/shopkeeper.tscn" id="11_kvpfn"]
-[ext_resource type="PackedScene" path="res://scenes/DeathScreen.tscn" id="13_kvuet"]
+[ext_resource type="PackedScene" uid="uid://blblsn2dy6isp" path="res://scenes/DeathScreen.tscn" id="13_kvuet"]
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_e2o6t"]
 polygon = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
@@ -252,22 +254,38 @@ fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(0.5, 0)
 metadata/_snap_enabled = true
 
-[node name="Game" type="Node2D" unique_id=1641961366 node_paths=PackedStringArray("_gameUi", "_player", "_shopkeeper")]
+[node name="Game" type="Node2D" unique_id=1641961366 node_paths=PackedStringArray("_gameUi", "_player", "_shopkeeperSpawner")]
 texture_filter = 1
 texture_repeat = 1
 script = ExtResource("1_3dryh")
 _gameUi = NodePath("GameUi")
 _player = NodePath("Player")
-_shopkeeper = NodePath("Shopkeeper")
-_nextLevelPath = "uid://bkg846qb0hqol"
+_shopkeeperSpawner = NodePath("ShopkeeperSpawner")
 
-[node name="GameUi" parent="." unique_id=1961520047 node_paths=PackedStringArray("_deathScreen") instance=ExtResource("1_wrm1d")]
-_deathScreen = NodePath("../DeathScreen")
+[node name="GameUi" parent="." unique_id=1961520047 instance=ExtResource("1_wrm1d")]
 
 [node name="CollectibleSpawner" parent="." unique_id=1877970303 node_paths=PackedStringArray("MarkersParent", "SpawnParent") instance=ExtResource("1_u5sy4")]
 MarkersParent = NodePath("../CollectibleMarkers")
 SpawnParent = NodePath("../Objects")
-Collectibles = Array[ExtResource("4_dinhu")]([ExtResource("3_0tnpc"), ExtResource("3_0tnpc"), ExtResource("4_vtaks"), ExtResource("3_0tnpc"), ExtResource("3_0tnpc"), ExtResource("4_vtaks"), ExtResource("4_vtaks"), ExtResource("3_0tnpc")])
+Collectibles = Array[ExtResource("4_dinhu")]([ExtResource("3_0tnpc"), ExtResource("3_0tnpc"), ExtResource("4_vtaks"), ExtResource("3_0tnpc"), ExtResource("3_0tnpc"), ExtResource("4_vtaks"), ExtResource("4_vtaks"), ExtResource("3_0tnpc"), ExtResource("7_kvuet")])
+
+[node name="ShopkeeperSpawner" parent="." unique_id=876018516 node_paths=PackedStringArray("SpawnParent") instance=ExtResource("8_trtic")]
+SpawnParent = NodePath("../Objects")
+
+[node name="ShopkeeperMarker" type="Node2D" parent="ShopkeeperSpawner" unique_id=1146557898]
+position = Vector2(87, 28)
+script = ExtResource("9_rysoc")
+metadata/_custom_type_script = "uid://dijtujx584y4b"
+
+[node name="ShopkeeperMarker2" type="Node2D" parent="ShopkeeperSpawner" unique_id=353518955]
+position = Vector2(24, 77)
+script = ExtResource("9_rysoc")
+metadata/_custom_type_script = "uid://dijtujx584y4b"
+
+[node name="ShopkeeperMarker3" type="Node2D" parent="ShopkeeperSpawner" unique_id=726273807]
+position = Vector2(91, 117)
+script = ExtResource("9_rysoc")
+metadata/_custom_type_script = "uid://dijtujx584y4b"
 
 [node name="CollectibleMarkers" type="Node" parent="." unique_id=469165547]
 
@@ -354,9 +372,6 @@ position = Vector2(324, 174)
 LoseSightTime = 2.0
 MaxChaseTime = 10.0
 _points = [NodePath("../enemyMarkers/MarkerA"), NodePath("../enemyMarkers/MarkerB")]
-
-[node name="Shopkeeper" parent="." unique_id=1946631433 instance=ExtResource("11_kvpfn")]
-position = Vector2(301, 56)
 
 [node name="Door" parent="." unique_id=48633109 instance=ExtResource("9_0tnpc")]
 position = Vector2(337, 8)
