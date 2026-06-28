@@ -266,12 +266,8 @@ energy = 2.0
 shadow_enabled = true
 texture = SubResource("GradientTexture2D_d6i3l")
 
-[node name="Player" parent="." unique_id=2014180960 groups=["player"] instance=ExtResource("2_uih6o")]
+[node name="Player" parent="." unique_id=2014180960 instance=ExtResource("2_uih6o")]
 position = Vector2(925, 135)
-
-[node name="DefaultCamera" type="Camera2D" parent="Player" unique_id=1301442895]
-zoom = Vector2(4, 4)
-position_smoothing_enabled = true
 
 [node name="TORCHES" type="Node" parent="." unique_id=1415611632]
 
