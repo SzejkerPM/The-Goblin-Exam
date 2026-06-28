@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://bnrkrqj6mctxa"]
+
+[ext_resource type="Script" uid="uid://dftdjseikeshy" path="res://scenes/shopkeeper/ShopkeeperSpawner.cs" id="1_clfmd"]
+[ext_resource type="PackedScene" path="res://scenes/shopkeeper.tscn" id="2_b4l8p"]
+
+[node name="ShopkeeperSpawner" type="Node2D" unique_id=876018516]
+script = ExtResource("1_clfmd")
+_shopkeeperScene = ExtResource("2_b4l8p")

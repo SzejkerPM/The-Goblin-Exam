@@ -47,7 +47,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"idle",
-"speed": 2.0
+"speed": 3.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -72,16 +72,22 @@ radius = 4.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_mdl7e"]
 
-[node name="Player" type="CharacterBody2D" unique_id=2014180960]
+[node name="Player" type="CharacterBody2D" unique_id=2014180960 groups=["player"]]
+z_index = 1
 collision_layer = 2
 script = ExtResource("1_kyqiw")
+
+[node name="DefaultCamera" type="Camera2D" parent="." unique_id=53010009]
+zoom = Vector2(4, 4)
+process_callback = 0
+position_smoothing_enabled = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=967237760]
 unique_name_in_owner = true
 scale = Vector2(0.8, 0.8)
 sprite_frames = SubResource("SpriteFrames_o4126")
-animation = &"running"
-frame_progress = 0.8977228
+animation = &"idle"
+frame_progress = 0.9247265
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=615025448]
 shape = SubResource("CircleShape2D_lkdrv")

@@ -10,12 +10,14 @@ public partial class Game : Node2D
 
     [Export] private GameUi _gameUi;
     [Export] private Player _player;
-    [Export] private Shopkeeper _shopkeeper;
+    [Export] private ShopkeeperSpawner _shopkeeperSpawner;
+
+    [Export(PropertyHint.File, "*.tscn")] private string _nextLevelPath;
 
     private Stamina _stamina;
     private Inventory _inventory;
 
-    private bool _doorOpen;
+    private Door _door;
     private bool _isGameOver;
 
     private readonly List<EnemyAi> _enemies = new();
@@ -24,12 +26,17 @@ public partial class Game : Node2D
     {
         _stamina = _player.GetNode<Stamina>("Stamina");
         _inventory = _player.GetNode<Inventory>("Inventory");
-
+        _shopkeeperSpawner.SpawnShopkeeper(_goldNeededForNextLevel);
+        
+        FindDoorOnTree();
+        CheckNextLevelPath();
         InitializeConnections();
         ConnectEnemies();
-        _shopkeeper?.Initialize(_goldNeededForNextLevel);
-    }
 
+       
+
+    }
+    
     public override void _ExitTree()
     {
         if (_stamina != null && _gameUi != null)
@@ -65,32 +72,54 @@ public partial class Game : Node2D
         {
             GD.PushWarning("Game.cs: Failed to disconnect events between Inventory and Game (null reference).");
         }
+
+        if (_door != null)
+        {
+            _door.PlayerEnterDoor -= LoadNextLevel;
+        }
+        else
+        {
+            GD.PushWarning("Game.cs: Failed to disconnect events between Door and Game (null reference).");
+        }
+    }
+
+    private void OnGoldChanged(int gold)
+    {
+        if (gold >= _goldNeededForNextLevel)
+        {
+            _door.Unlock();
+        }
+    }
+
+    private void LoadNextLevel()
+    {
+        GetTree().ChangeSceneToFile(_nextLevelPath);
     }
 
     private void InitializeConnections()
     {
-        if (_stamina != null && _gameUi != null)
-            _stamina.StaminaChanged += _gameUi.OnStaminaChanged;
-        else
-            GD.PrintErr("Game.cs: Could not connect stamina to UI.");
+        _stamina.StaminaChanged += _gameUi.OnStaminaChanged;
+        _player.InteractionAreaEntered += _gameUi.ShowEKeyContainer;
+        _player.InteractionAreaExited += _gameUi.HideEKeyContainer;
+        _inventory.GoldChanged += OnGoldChanged;
+        _door.PlayerEnterDoor += LoadNextLevel;
+    }
 
-        if (_player != null && _gameUi != null)
-        {
-            _player.InteractionAreaEntered += _gameUi.ShowEKeyContainer;
-            _player.InteractionAreaExited += _gameUi.HideEKeyContainer;
-        }
-        else
-        {
-            GD.PrintErr("Game.cs: Could not connect player interaction events to UI.");
-        }
+    private void FindDoorOnTree()
+    {
+        _door = GetTree().GetFirstNodeInGroup("door") as Door;
 
-        if (_inventory != null)
+        if (_door == null)
         {
-            _inventory.GoldChanged += OnGoldChanged;
+            throw new System.NullReferenceException("Game.cs: Failed to find Door scene on the Tree!");
         }
-        else
+    }
+
+    private void CheckNextLevelPath()
+    {
+        if (string.IsNullOrWhiteSpace(_nextLevelPath))
         {
-            GD.PrintErr("Game.cs: Could not connect inventory gold event.");
+            throw new System.InvalidOperationException("Game.cs: Next Level Path is missing in Inspector!");
         }
     }
 
@@ -103,14 +132,6 @@ public partial class Game : Node2D
                 enemy.PlayerCaught += OnPlayerCaught;
                 _enemies.Add(enemy);
             }
-        }
-    }
-
-    private void OnGoldChanged(int gold)
-    {
-        if (gold >= _goldNeededForNextLevel)
-        {
-            _doorOpen = true;
         }
     }
 
