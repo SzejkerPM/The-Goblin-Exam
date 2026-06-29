@@ -10,7 +10,9 @@ public partial class Game : Node2D
 
     [Export] private GameUi _gameUi;
     [Export] private Player _player;
+    [Export] private Shopkeeper _shopkeeper;
     [Export] private ShopkeeperSpawner _shopkeeperSpawner;
+    [Export] private CollectibleSpawner _collectibleSpawner;
 
     [Export(PropertyHint.File, "*.tscn")] private string _nextLevelPath;
 
@@ -26,15 +28,17 @@ public partial class Game : Node2D
     {
         _stamina = _player.GetNode<Stamina>("Stamina");
         _inventory = _player.GetNode<Inventory>("Inventory");
+        _gameUi.SetPlayer(_player);
+        _shopkeeperSpawner.ShopkeeperSpawned += OnShopkeeperSpawned;
         _shopkeeperSpawner.SpawnShopkeeper(_goldNeededForNextLevel);
+        _shopkeeper.MinigameRequested += _gameUi.ShowMinigame;
+        _shopkeeper.Initialize(_goldNeededForNextLevel);
+        _collectibleSpawner.GameUi = _gameUi;
         
         FindDoorOnTree();
         CheckNextLevelPath();
         InitializeConnections();
         ConnectEnemies();
-
-       
-
     }
     
     public override void _ExitTree()
@@ -81,6 +85,13 @@ public partial class Game : Node2D
         {
             GD.PushWarning("Game.cs: Failed to disconnect events between Door and Game (null reference).");
         }
+    }
+
+    private void OnShopkeeperSpawned(Shopkeeper shopkeeper)
+    {
+        _shopkeeper = shopkeeper;
+        _shopkeeper.Initialize(_goldNeededForNextLevel);
+        _shopkeeper.MinigameRequested += _gameUi.ShowMinigame;
     }
 
     private void OnGoldChanged(int gold)

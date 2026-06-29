@@ -4,6 +4,9 @@ namespace TheGoblinExam.scripts;
 
 public partial class Shopkeeper : Area2D, IInteractable
 {
+    [Signal]
+    public delegate void MinigameRequestedEventHandler();
+
     public string InteractionPrompt => "Sell items";
 
     [Export] public int Gold { get; private set; } = 1000;

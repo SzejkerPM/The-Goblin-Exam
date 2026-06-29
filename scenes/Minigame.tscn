@@ -1,0 +1,67 @@
+[gd_scene format=3 uid="uid://dqpm3xj6rbfbf"]
+
+[ext_resource type="Script" uid="uid://1j07yywm2hl3" path="res://scripts/Minigame.cs" id="1_minigame"]
+[ext_resource type="Texture2D" uid="uid://bcuts2ibyynd2" path="res://assets/2D Pixel Dungeon Asset Pack/items and trap_animation/chest/chest_3.png" id="2_a3l4v"]
+
+[node name="Minigame" type="Control" unique_id=1588963390]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -302.0
+offset_top = -200.0
+offset_right = 298.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_minigame")
+
+[node name="Background" type="ColorRect" parent="." unique_id=2039587688]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.470588)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=500594834]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer" unique_id=358151586]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+texture = ExtResource("2_a3l4v")
+stretch_mode = 5
+
+[node name="LabelContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=1778352779]
+layout_mode = 2
+alignment = 1
+
+[node name="Label1" type="Label" parent="VBoxContainer/LabelContainer" unique_id=1162725998]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "."
+
+[node name="Label2" type="Label" parent="VBoxContainer/LabelContainer" unique_id=1460757530]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "."
+
+[node name="Label3" type="Label" parent="VBoxContainer/LabelContainer" unique_id=1810901851]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "."
+
+[node name="Title" type="Label" parent="VBoxContainer" unique_id=1202173549]
+layout_mode = 2
+text = "Press 'left' or 'right' arrows to guess the sequence."
+horizontal_alignment = 1
