@@ -1,5 +1,6 @@
 ﻿using Godot;
 using Godot.Collections;
+using TheGoblinExam.Scripts;
 
 [GlobalClass]
 public partial class CollectibleSpawner : Node2D
@@ -7,6 +8,8 @@ public partial class CollectibleSpawner : Node2D
     [Export] private Node MarkersParent { get; set; }
 
     [Export] private Node SpawnParent { get; set; }
+
+    [Export] public GameUi GameUi { get; set; }
 
     [Export] private Array<InteractableResource> Collectibles { get; set; } = new();
 
@@ -58,6 +61,8 @@ public partial class CollectibleSpawner : Node2D
         openable.GlobalPosition = globalPosition;
         openable.Init(resource);
         openable.Opened += OnOpenableOpened;
+        openable.MinigameRequested += GameUi.ShowMinigameForOpenable;
+        
     }
 
     private void OnOpenableOpened(Openable openable)
@@ -77,6 +82,7 @@ public partial class CollectibleSpawner : Node2D
         }
 
         openable.Opened -= OnOpenableOpened;
+        openable.MinigameRequested -= GameUi.ShowMinigameForOpenable;
     }
 
     private void SpawnInteractable(CollectibleMarker marker, InteractableResource resource)

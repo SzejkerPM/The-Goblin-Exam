@@ -21,6 +21,7 @@ public partial class Player : CharacterBody2D
     private Stamina _stamina;
     private Inventory _inventory;
     private AnimatedSprite2D _animatedSprite;
+    private bool _isMovementBlocked = false;
 
     private IInteractable _currentInteractable;
 
@@ -82,8 +83,19 @@ public partial class Player : CharacterBody2D
         }
     }
 
+    public void SetMovementBlocked(bool blocked)
+    {
+        _isMovementBlocked = blocked;
+        if (blocked)
+        {
+            Velocity = Vector2.Zero;
+            _animatedSprite.Play("idle");
+        }
+    }
+
     private Vector2 GetDirectionFromInput()
     {
+        if (_isMovementBlocked) return Vector2.Zero;
         return Input.GetVector("move_left", "move_right", "move_up", "move_down");
     }
 

@@ -265,10 +265,13 @@ _nextLevelPath = "uid://cbf33ccl1wq11"
 
 [node name="GameUi" parent="." unique_id=1961520047 node_paths=PackedStringArray("_deathScreen") instance=ExtResource("1_wrm1d")]
 _deathScreen = NodePath("../DeathScreen")
+[node name="GameUi" parent="." unique_id=1961520047 node_paths=PackedStringArray("_player") instance=ExtResource("1_wrm1d")]
+_player = NodePath("../Player")
 
-[node name="CollectibleSpawner" parent="." unique_id=1877970303 node_paths=PackedStringArray("MarkersParent", "SpawnParent") instance=ExtResource("1_u5sy4")]
+[node name="CollectibleSpawner" parent="." unique_id=1877970303 node_paths=PackedStringArray("MarkersParent", "SpawnParent", "GameUi") instance=ExtResource("1_u5sy4")]
 MarkersParent = NodePath("../CollectibleMarkers")
 SpawnParent = NodePath("../Objects")
+GameUi = NodePath("../GameUi")
 Collectibles = Array[ExtResource("4_dinhu")]([ExtResource("3_0tnpc"), ExtResource("3_0tnpc"), ExtResource("4_vtaks"), ExtResource("3_0tnpc"), ExtResource("3_0tnpc"), ExtResource("4_vtaks"), ExtResource("4_vtaks"), ExtResource("3_0tnpc"), ExtResource("7_kvuet")])
 
 [node name="ShopkeeperSpawner" parent="." unique_id=876018516 node_paths=PackedStringArray("SpawnParent") instance=ExtResource("8_trtic")]

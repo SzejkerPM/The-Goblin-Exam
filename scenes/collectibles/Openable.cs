@@ -6,6 +6,9 @@ public partial class Openable : Area2D, IInteractable
 {
     [Signal]
     public delegate void OpenedEventHandler(Openable openable);
+
+    [Signal]
+    public delegate void MinigameRequestedEventHandler(Openable openable);
     
     public string InteractionPrompt => "Open";
 
@@ -23,6 +26,11 @@ public partial class Openable : Area2D, IInteractable
     public OpenableResource GetResource() => _resource;
 
     public void Interact()
+    {
+        EmitSignal(SignalName.MinigameRequested, this);
+    }
+
+    public void CompleteInteraction()
     {
         GD.Print("Opening...");
         EmitSignal(SignalName.Opened, this);
