@@ -14,7 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://blmoel3cyo5qh" path="res://scenes/door.tscn" id="9_0tnpc"]
 [ext_resource type="Script" uid="uid://dijtujx584y4b" path="res://scenes/shopkeeper/ShopkeeperMarker.cs" id="9_rysoc"]
 [ext_resource type="PackedScene" uid="uid://btm6hbe3yvrdd" path="res://scenes/EnemyAi.tscn" id="10_vtaks"]
-[ext_resource type="PackedScene" path="res://scenes/DeathScreen.tscn" id="13_kvuet"]
+[ext_resource type="PackedScene" uid="uid://blblsn2dy6isp" path="res://scenes/DeathScreen.tscn" id="13_kvuet"]
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_e2o6t"]
 polygon = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)

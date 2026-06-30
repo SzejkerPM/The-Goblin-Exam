@@ -11,7 +11,6 @@ public partial class Game : Node2D
 
     [Export] private GameUi _gameUi;
     [Export] private Player _player;
-    [Export] private Shopkeeper _shopkeeper;
     [Export] private ShopkeeperSpawner _shopkeeperSpawner;
     [Export] private CollectibleSpawner _collectibleSpawner;
 
@@ -128,13 +127,6 @@ public partial class Game : Node2D
 
         if (_gameUi != null)
             _shopkeeper.MinigameRequested += _gameUi.ShowMinigame;
-    }
-
-    private void OnShopkeeperSpawned(Shopkeeper shopkeeper)
-    {
-        _shopkeeper = shopkeeper;
-        _shopkeeper.Initialize(_goldNeededForNextLevel);
-        _shopkeeper.MinigameRequested += _gameUi.ShowMinigame;
     }
 
     private void OnGoldChanged(int gold)
