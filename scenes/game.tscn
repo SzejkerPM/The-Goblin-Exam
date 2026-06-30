@@ -254,41 +254,41 @@ fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(0.5, 0)
 metadata/_snap_enabled = true
 
-[node name="Game" type="Node2D" unique_id=1641961366 node_paths=PackedStringArray("_gameUi", "_player", "_shopkeeperSpawner")]
+[node name="Game" type="Node2D" unique_id=1641961366 node_paths=PackedStringArray("_gameUi", "_player", "_shopkeeperSpawner", "_collectibleSpawner")]
 texture_filter = 1
 texture_repeat = 1
 script = ExtResource("1_3dryh")
 _gameUi = NodePath("GameUi")
 _player = NodePath("Player")
 _shopkeeperSpawner = NodePath("ShopkeeperSpawner")
-_nextLevelPath = "uid://cbf33ccl1wq11"
+_collectibleSpawner = NodePath("CollectibleSpawner")
+_nextLevelPath = "uid://q07nud4oxiwj"
 
-[node name="GameUi" parent="." unique_id=1961520047 node_paths=PackedStringArray("_deathScreen") instance=ExtResource("1_wrm1d")]
+[node name="GameUi" parent="." unique_id=1961520047 node_paths=PackedStringArray("_deathScreen", "_player") instance=ExtResource("1_wrm1d")]
 _deathScreen = NodePath("../DeathScreen")
-[node name="GameUi" parent="." unique_id=1961520047 node_paths=PackedStringArray("_player") instance=ExtResource("1_wrm1d")]
 _player = NodePath("../Player")
 
 [node name="CollectibleSpawner" parent="." unique_id=1877970303 node_paths=PackedStringArray("MarkersParent", "SpawnParent", "GameUi") instance=ExtResource("1_u5sy4")]
 MarkersParent = NodePath("../CollectibleMarkers")
 SpawnParent = NodePath("../Objects")
 GameUi = NodePath("../GameUi")
-Collectibles = Array[ExtResource("4_dinhu")]([ExtResource("3_0tnpc"), ExtResource("3_0tnpc"), ExtResource("4_vtaks"), ExtResource("3_0tnpc"), ExtResource("3_0tnpc"), ExtResource("4_vtaks"), ExtResource("4_vtaks"), ExtResource("3_0tnpc"), ExtResource("7_kvuet")])
+Collectibles = Array[ExtResource("4_dinhu")]([ExtResource("3_0tnpc"), ExtResource("3_0tnpc"), ExtResource("4_vtaks"), ExtResource("3_0tnpc"), ExtResource("4_vtaks"), ExtResource("4_vtaks"), ExtResource("4_vtaks"), ExtResource("4_vtaks"), ExtResource("7_kvuet")])
 
 [node name="ShopkeeperSpawner" parent="." unique_id=876018516 node_paths=PackedStringArray("SpawnParent") instance=ExtResource("8_trtic")]
 SpawnParent = NodePath("../Objects")
 
 [node name="ShopkeeperMarker" type="Node2D" parent="ShopkeeperSpawner" unique_id=1146557898]
-position = Vector2(87, 28)
+position = Vector2(184, 233)
 script = ExtResource("9_rysoc")
 metadata/_custom_type_script = "uid://dijtujx584y4b"
 
 [node name="ShopkeeperMarker2" type="Node2D" parent="ShopkeeperSpawner" unique_id=353518955]
-position = Vector2(24, 77)
+position = Vector2(319, 199)
 script = ExtResource("9_rysoc")
 metadata/_custom_type_script = "uid://dijtujx584y4b"
 
 [node name="ShopkeeperMarker3" type="Node2D" parent="ShopkeeperSpawner" unique_id=726273807]
-position = Vector2(91, 117)
+position = Vector2(28, 76)
 script = ExtResource("9_rysoc")
 metadata/_custom_type_script = "uid://dijtujx584y4b"
 
@@ -387,3 +387,5 @@ position = Vector2(73, 76)
 
 [node name="DeathScreen" parent="." unique_id=165477240 instance=ExtResource("13_kvuet")]
 visible = false
+
+[editable path="GameUi"]

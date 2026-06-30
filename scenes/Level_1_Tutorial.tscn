@@ -5,8 +5,8 @@
 [ext_resource type="PackedScene" uid="uid://b27eu2i3usdul" path="res://scenes/Player.tscn" id="2_0hp66"]
 [ext_resource type="PackedScene" uid="uid://blmoel3cyo5qh" path="res://scenes/door.tscn" id="4_o0k2k"]
 [ext_resource type="PackedScene" uid="uid://c5kj5446llr3j" path="res://scenes/GameUi.tscn" id="5_wd8j4"]
-[ext_resource type="PackedScene" path="res://scenes/DeathScreen.tscn" id="6_kd6ne"]
-[ext_resource type="PackedScene" uid="uid://clvbfhllopw6n" path="res://scenes/Torch.tscn" id="7_v0fe3"]
+[ext_resource type="PackedScene" uid="uid://blblsn2dy6isp" path="res://scenes/DeathScreen.tscn" id="6_kd6ne"]
+[ext_resource type="PackedScene" uid="uid://clvbfhllopw6n" path="res://scenes/torch.tscn" id="7_v0fe3"]
 [ext_resource type="PackedScene" uid="uid://btm6hbe3yvrdd" path="res://scenes/EnemyAi.tscn" id="7_wd8j4"]
 [ext_resource type="PackedScene" uid="uid://bnrkrqj6mctxa" path="res://scenes/shopkeeper/shopkeeper_spawner.tscn" id="9_a7bjx"]
 [ext_resource type="Script" uid="uid://dijtujx584y4b" path="res://scenes/shopkeeper/ShopkeeperMarker.cs" id="10_jtdtt"]
@@ -263,21 +263,12 @@ physics_layer_0/collision_layer = 1
 navigation_layer_0/layers = 1
 sources/0 = SubResource("TileSetAtlasSource_17vp5")
 
-[sub_resource type="Gradient" id="Gradient_4e6hi"]
-colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_d6i3l"]
-gradient = SubResource("Gradient_4e6hi")
-fill = 1
-fill_from = Vector2(0.5, 0.5)
-fill_to = Vector2(0.5, 0)
-metadata/_snap_enabled = true
-
-[node name="Level_1_Tutorial" type="Node2D" unique_id=364656101 node_paths=PackedStringArray("_gameUi", "_player", "_shopkeeperSpawner")]
+[node name="Level_1_Tutorial" type="Node2D" unique_id=364656101 node_paths=PackedStringArray("_gameUi", "_player", "_shopkeeperSpawner", "_collectibleSpawner")]
 script = ExtResource("1_kd6ne")
 _gameUi = NodePath("GameUi")
 _player = NodePath("Player")
 _shopkeeperSpawner = NodePath("ShopkeeperSpawner")
+_collectibleSpawner = NodePath("CollectibleSpawner")
 _nextLevelPath = "uid://6etob6kktl1n"
 
 [node name="Level" type="Node" parent="." unique_id=928227139]
@@ -293,14 +284,6 @@ color = Color(0.601223, 0.60122293, 0.60122305, 1)
 
 [node name="Door" parent="Level" unique_id=48633109 instance=ExtResource("4_o0k2k")]
 position = Vector2(1217, 329)
-
-[node name="DoorLight" type="PointLight2D" parent="Level/Door" unique_id=316067521]
-position = Vector2(-1, 0)
-scale = Vector2(1.9200025, 1.9200025)
-color = Color(0.6784314, 0.65882355, 0, 1)
-energy = 2.0
-shadow_enabled = true
-texture = SubResource("GradientTexture2D_d6i3l")
 
 [node name="TorchSprite" type="Node" parent="Level" unique_id=1060510283]
 
@@ -368,8 +351,15 @@ position = Vector2(932, 817)
 [node name="MarkerF" type="Marker2D" parent="Enemy/Enemy/Enemy_Markers" unique_id=82998052]
 position = Vector2(933, 598)
 
-[node name="GameUi" parent="." unique_id=1961520047 node_paths=PackedStringArray("_deathScreen") instance=ExtResource("5_wd8j4")]
+[node name="GameUi" parent="." unique_id=1961520047 node_paths=PackedStringArray("_deathScreen", "_player") instance=ExtResource("5_wd8j4")]
 _deathScreen = NodePath("../DeathScreen")
+_player = NodePath("../Player")
+
+[node name="MarginContainer2" parent="GameUi/Control" parent_id_path=PackedInt32Array(1961520047, 1496853926) index="0" unique_id=1773335531]
+offset_left = 37.0
+offset_right = 1109.0
+grow_horizontal = 1
+grow_vertical = 1
 
 [node name="DeathScreen" parent="." unique_id=165477240 instance=ExtResource("6_kd6ne")]
 visible = false
@@ -380,60 +370,63 @@ position = Vector2(932, 599)
 [node name="CollectibleMarkers" type="Node" parent="." unique_id=1259349272]
 
 [node name="CollectibleMarker" parent="CollectibleMarkers" unique_id=1860727736 instance=ExtResource("16_5f71p")]
-position = Vector2(603, 572)
+position = Vector2(603, 570)
 
 [node name="CollectibleMarker2" parent="CollectibleMarkers" unique_id=574968658 instance=ExtResource("16_5f71p")]
-position = Vector2(120, 24)
+position = Vector2(1179, 792)
 
 [node name="CollectibleMarker3" parent="CollectibleMarkers" unique_id=296469534 instance=ExtResource("16_5f71p")]
-position = Vector2(121, 120)
+position = Vector2(890, 859)
 
 [node name="CollectibleMarker4" parent="CollectibleMarkers" unique_id=2049566349 instance=ExtResource("16_5f71p")]
-position = Vector2(24, 120)
+position = Vector2(890, 344)
 
 [node name="CollectibleMarker5" parent="CollectibleMarkers" unique_id=199081005 instance=ExtResource("16_5f71p")]
-position = Vector2(965, 349)
+position = Vector2(968, 345)
 
 [node name="CollectibleMarker6" parent="CollectibleMarkers" unique_id=1785600330 instance=ExtResource("16_5f71p")]
-position = Vector2(962, 800)
+position = Vector2(968, 792)
 
 [node name="CollectibleMarker7" parent="CollectibleMarkers" unique_id=1001382981 instance=ExtResource("16_5f71p")]
-position = Vector2(296, 200)
+position = Vector2(1257, 634)
 
 [node name="CollectibleMarker8" parent="CollectibleMarkers" unique_id=425802441 instance=ExtResource("16_5f71p")]
-position = Vector2(376, 136)
+position = Vector2(1256, 793)
 
 [node name="CollectibleMarker9" parent="CollectibleMarkers" unique_id=1727346075 instance=ExtResource("16_5f71p")]
-position = Vector2(611, 353)
+position = Vector2(603, 345)
 
 [node name="CollectibleMarker10" parent="CollectibleMarkers" unique_id=38282823 instance=ExtResource("16_5f71p")]
-position = Vector2(612, 848)
+position = Vector2(601, 858)
 
 [node name="CollectibleMarker12" parent="CollectibleMarkers" unique_id=627888141 instance=ExtResource("16_5f71p")]
-position = Vector2(232, 104)
+position = Vector2(1256, 569)
 
 [node name="CollectibleMarker11" parent="CollectibleMarkers" unique_id=1116361229 instance=ExtResource("16_5f71p")]
-position = Vector2(296, 136)
+position = Vector2(679, 345)
 
-[node name="CollectibleSpawner" parent="." unique_id=1877970303 node_paths=PackedStringArray("MarkersParent", "SpawnParent") instance=ExtResource("11_ypa06")]
+[node name="CollectibleSpawner" parent="." unique_id=1877970303 node_paths=PackedStringArray("MarkersParent", "SpawnParent", "GameUi") instance=ExtResource("11_ypa06")]
 MarkersParent = NodePath("../CollectibleMarkers")
 SpawnParent = NodePath("../Level")
-Collectibles = Array[ExtResource("12_nevr1")]([ExtResource("13_8ijoi"), ExtResource("13_8ijoi"), ExtResource("14_0871f"), ExtResource("13_8ijoi"), ExtResource("13_8ijoi"), ExtResource("14_0871f"), ExtResource("14_0871f"), ExtResource("13_8ijoi"), ExtResource("15_kt6ky")])
+GameUi = NodePath("../GameUi")
+Collectibles = Array[ExtResource("12_nevr1")]([ExtResource("13_8ijoi"), ExtResource("13_8ijoi"), ExtResource("13_8ijoi"), ExtResource("14_0871f"), ExtResource("14_0871f"), ExtResource("14_0871f"), ExtResource("14_0871f"), ExtResource("14_0871f"), ExtResource("15_kt6ky")])
 
 [node name="ShopkeeperSpawner" parent="." unique_id=876018516 node_paths=PackedStringArray("SpawnParent") instance=ExtResource("9_a7bjx")]
 SpawnParent = NodePath("../Level")
 
 [node name="ShopkeeperMarker" type="Node2D" parent="ShopkeeperSpawner" unique_id=852523757]
-position = Vector2(933, 372)
+position = Vector2(897, 403)
 script = ExtResource("10_jtdtt")
 metadata/_custom_type_script = "uid://dijtujx584y4b"
 
 [node name="ShopkeeperMarker2" type="Node2D" parent="ShopkeeperSpawner" unique_id=1807572292]
-position = Vector2(1203, 850)
+position = Vector2(1183, 853)
 script = ExtResource("10_jtdtt")
 metadata/_custom_type_script = "uid://dijtujx584y4b"
 
 [node name="ShopkeeperMarker3" type="Node2D" parent="ShopkeeperSpawner" unique_id=1916340771]
-position = Vector2(639, 607)
+position = Vector2(611, 627)
 script = ExtResource("10_jtdtt")
 metadata/_custom_type_script = "uid://dijtujx584y4b"
+
+[editable path="GameUi"]

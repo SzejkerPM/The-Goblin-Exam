@@ -7,6 +7,6 @@
 script = ExtResource("2_fawbj")
 Texture = ExtResource("1_7pcea")
 Name = "Big gold pile"
-Value = 50
+Value = 35
 Weight = 10.0
 metadata/_custom_type_script = "uid://bysmghtgaleer"
