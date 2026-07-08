@@ -21,7 +21,7 @@ public partial class Player : CharacterBody2D
     private Stamina _stamina;
     private Inventory _inventory;
     private AnimatedSprite2D _animatedSprite;
-    private bool _isMovementBlocked = false;
+    private bool _isMovementBlocked;
 
     private IInteractable _currentInteractable;
 
@@ -51,7 +51,7 @@ public partial class Player : CharacterBody2D
 
         if (interactable != null)
         {
-            if (interactable is Collectible && !_inventory.CanAddItems())
+            if (interactable is scenes.collectibles.Collectible && !_inventory.CanAddItems())
             {
                 return;
             }
@@ -167,14 +167,14 @@ public partial class Player : CharacterBody2D
         {
             if (_currentInteractable == null) return;
 
-            if (_currentInteractable is Collectible collectible)
+            if (_currentInteractable is scenes.collectibles.Collectible collectible)
             {
                 var item = collectible.CollectibleResource;
                 _inventory.AddItemToInventory(item);
                 _currentInteractable.Interact();
                 _currentInteractable = null;
             }
-            else if (_currentInteractable is Openable openable)
+            else if (_currentInteractable is scenes.collectibles.Openable openable)
             {
                 openable.Interact();
                 _currentInteractable = null;

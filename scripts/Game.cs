@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Godot;
 using TheGoblinExam.scripts;
+using ShopkeeperSpawner = TheGoblinExam.scenes.shopkeeper.ShopkeeperSpawner;
 
 namespace TheGoblinExam.Scripts;
 
@@ -12,7 +13,7 @@ public partial class Game : Node2D
     [Export] private GameUi _gameUi;
     [Export] private Player _player;
     [Export] private ShopkeeperSpawner _shopkeeperSpawner;
-    [Export] private CollectibleSpawner _collectibleSpawner;
+    [Export] private scenes.collectibles.CollectibleSpawner _collectibleSpawner;
 
     [Export(PropertyHint.File, "*.tscn")] private string _nextLevelPath;
 

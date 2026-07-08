@@ -1,5 +1,7 @@
 using Godot;
 
+namespace TheGoblinExam.scripts;
+
 public partial class DeathScreen : CanvasLayer
 {
     [Export] private Button _restartButton;

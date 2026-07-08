@@ -4,14 +4,14 @@ namespace TheGoblinExam.Scripts;
 
 public partial class GameUi : CanvasLayer
 {
-    [Export] private DeathScreen _deathScreen;
+    [Export] private scripts.DeathScreen _deathScreen;
     [Export] private Minigame _minigame;
     [Export] private Player _player;
 
     private TextureProgressBar _staminaProgressBar;
     private HBoxContainer _eKeyContainer;
     private Label _actionText;
-    private Openable _currentRequestingOpenable;
+    private scenes.collectibles.Openable _currentRequestingOpenable;
 
     public void SetPlayer(Player player)
     {
@@ -56,7 +56,7 @@ public partial class GameUi : CanvasLayer
         _minigame?.StartMinigame();
     }
 
-    public void ShowMinigameForOpenable(Openable openable)
+    public void ShowMinigameForOpenable(scenes.collectibles.Openable openable)
     {
         _currentRequestingOpenable = openable;
         _player?.SetMovementBlocked(true);
