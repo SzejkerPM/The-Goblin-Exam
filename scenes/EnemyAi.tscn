@@ -134,7 +134,7 @@ collision_layer = 8
 collision_mask = 3
 motion_mode = 1
 script = ExtResource("1_k6bqv")
-SightCollisionMask = 3
+_sightCollisionMask = 3
 _points = []
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=214305605]

@@ -5,8 +5,8 @@
 [ext_resource type="PackedScene" uid="uid://b27eu2i3usdul" path="res://scenes/Player.tscn" id="2_0hp66"]
 [ext_resource type="PackedScene" uid="uid://blmoel3cyo5qh" path="res://scenes/door.tscn" id="4_o0k2k"]
 [ext_resource type="PackedScene" uid="uid://c5kj5446llr3j" path="res://scenes/GameUi.tscn" id="5_wd8j4"]
-[ext_resource type="PackedScene" uid="uid://blblsn2dy6isp" path="res://scenes/DeathScreen.tscn" id="6_kd6ne"]
-[ext_resource type="PackedScene" uid="uid://clvbfhllopw6n" path="res://scenes/torch.tscn" id="7_v0fe3"]
+[ext_resource type="PackedScene" uid="uid://bggs3ukv5iapm" path="res://scenes/DeathScreen.tscn" id="6_kd6ne"]
+[ext_resource type="PackedScene" uid="uid://clvbfhllopw6n" path="res://scenes/Torch.tscn" id="7_v0fe3"]
 [ext_resource type="PackedScene" uid="uid://btm6hbe3yvrdd" path="res://scenes/EnemyAi.tscn" id="7_wd8j4"]
 [ext_resource type="PackedScene" uid="uid://bnrkrqj6mctxa" path="res://scenes/shopkeeper/shopkeeper_spawner.tscn" id="9_a7bjx"]
 [ext_resource type="Script" uid="uid://dijtujx584y4b" path="res://scenes/shopkeeper/ShopkeeperMarker.cs" id="10_jtdtt"]
@@ -327,8 +327,6 @@ position = Vector2(745, 802)
 
 [node name="Enemy" parent="Enemy" unique_id=1239395928 node_paths=PackedStringArray("_points") groups=["enemy"] instance=ExtResource("7_wd8j4")]
 position = Vector2(1204, 600)
-LoseSightTime = 2.0
-MaxChaseTime = 10.0
 _points = [NodePath("Enemy_Markers/MarkerC"), NodePath("Enemy_Markers/MarkerB"), NodePath("Enemy_Markers/MarkerA"), NodePath("Enemy_Markers/MarkerD"), NodePath("Enemy_Markers/MarkerE"), NodePath("Enemy_Markers/MarkerF")]
 
 [node name="Enemy_Markers" type="Node" parent="Enemy/Enemy" unique_id=446143280]
