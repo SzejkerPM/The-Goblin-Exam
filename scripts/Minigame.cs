@@ -17,9 +17,9 @@ public partial class Minigame : Control
     private const string RightDisplay = "R";
     private const string EmptyDisplay = ".";
 
-    private List<string> _sequence = new List<string>();
-    private int _currentStep = 0;
-    private bool _isActive = false;
+    private readonly List<string> _sequence = new List<string>();
+    private int _currentStep;
+    private bool _isActive;
 
     public override void _Ready()
     {

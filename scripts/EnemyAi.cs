@@ -1,21 +1,23 @@
 using Godot;
 using Godot.Collections;
 
+namespace TheGoblinExam.scripts;
+
 public partial class EnemyAi : CharacterBody2D
 {
     [Signal]
     public delegate void PlayerCaughtEventHandler();
 
-    [Export] private float Speed = 40f;
-    [Export] private float ChaseSpeed = 65f;
-    [Export] private float MarkerReachDistance = 6f;
+    [Export] private float _speed = 40f;
+    [Export] private float _chaseSpeed = 65f;
+    [Export] private float _markerReachDistance = 6f;
 
-    [Export] private float SightMemoryTime = 0.20f;
-    [Export] private float LoseSightTime = 1.20f;
-    [Export] private float MaxChaseTime = 5.0f;
-    [Export] private float TargetRefreshDistance = 8.0f;
+    [Export] private float _sightMemoryTime = 0.20f;
+    [Export] private float _loseSightTime = 1.20f;
+    [Export] private float _maxChaseTime = 5.0f;
+    [Export] private float _targetRefreshDistance = 8.0f;
 
-    [Export(PropertyHint.Layers2DPhysics)] private uint SightCollisionMask;
+    [Export(PropertyHint.Layers2DPhysics)] private uint _sightCollisionMask;
     [Export] private Marker2D[] _points;
 
     private NavigationAgent2D _agent;
@@ -81,10 +83,10 @@ public partial class EnemyAi : CharacterBody2D
         _patrolTimer.OneShot = true;
 
         _loseSightTimer.OneShot = true;
-        _loseSightTimer.WaitTime = LoseSightTime;
+        _loseSightTimer.WaitTime = _loseSightTime;
 
         _maxChaseTimer.OneShot = true;
-        _maxChaseTimer.WaitTime = MaxChaseTime;
+        _maxChaseTimer.WaitTime = _maxChaseTime;
 
         _visionArea.BodyEntered += OnVisionBodyEntered;
         _visionArea.BodyExited += OnVisionBodyExited;
@@ -149,7 +151,7 @@ public partial class EnemyAi : CharacterBody2D
 
         var keepVisualContact =
             _hasConfirmedSight &&
-            _timeSinceLastVisible <= SightMemoryTime;
+            _timeSinceLastVisible <= _sightMemoryTime;
 
         if (keepVisualContact)
         {
@@ -204,10 +206,10 @@ public partial class EnemyAi : CharacterBody2D
         if (_maxChaseTimer.IsStopped() && _maxChaseTimer.IsInsideTree())
             _maxChaseTimer.Start();
 
-        if (_currentTargetPosition.DistanceTo(_lastSeenPlayerPosition) >= TargetRefreshDistance)
+        if (_currentTargetPosition.DistanceTo(_lastSeenPlayerPosition) >= _targetRefreshDistance)
             SetAgentTarget(_lastSeenPlayerPosition);
 
-        MoveToCurrentTarget(ChaseSpeed);
+        MoveToCurrentTarget(_chaseSpeed);
     }
 
     private void SearchLastSeenPosition()
@@ -220,13 +222,13 @@ public partial class EnemyAi : CharacterBody2D
 
         SetAgentTarget(_lastSeenPlayerPosition);
 
-        if (_agent.IsNavigationFinished() || GlobalPosition.DistanceTo(_lastSeenPlayerPosition) <= MarkerReachDistance)
+        if (_agent.IsNavigationFinished() || GlobalPosition.DistanceTo(_lastSeenPlayerPosition) <= _markerReachDistance)
         {
             EndSearchAndResumePatrol();
             return;
         }
 
-        MoveToCurrentTarget(ChaseSpeed);
+        MoveToCurrentTarget(_chaseSpeed);
     }
 
     private void Patrol()
@@ -243,13 +245,13 @@ public partial class EnemyAi : CharacterBody2D
         var patrolTarget = _points[_currentIndex].GlobalPosition;
         SetAgentTarget(patrolTarget);
 
-        if (_agent.IsNavigationFinished() || GlobalPosition.DistanceTo(patrolTarget) <= MarkerReachDistance)
+        if (_agent.IsNavigationFinished() || GlobalPosition.DistanceTo(patrolTarget) <= _markerReachDistance)
         {
             StartPatrolPause();
             return;
         }
 
-        MoveToCurrentTarget(Speed);
+        MoveToCurrentTarget(_speed);
     }
 
     private void StartPatrolPause()
@@ -410,7 +412,7 @@ public partial class EnemyAi : CharacterBody2D
     {
         var from = GetSightOrigin();
 
-        var query = PhysicsRayQueryParameters2D.Create(from, targetPoint, SightCollisionMask);
+        var query = PhysicsRayQueryParameters2D.Create(from, targetPoint, _sightCollisionMask);
         query.CollideWithBodies = true;
         query.CollideWithAreas = false;
         query.HitFromInside = false;

@@ -1,7 +1,8 @@
 ﻿using Godot;
 using Godot.Collections;
+using TheGoblinExam.scripts;
 
-namespace TheGoblinExam.scripts;
+namespace TheGoblinExam.scenes.shopkeeper;
 
 public partial class ShopkeeperSpawner : Node2D
 {

@@ -1,5 +1,7 @@
 using Godot;
 
+namespace TheGoblinExam.Resources.Collectibles;
+
 [GlobalClass]
 public partial class CollectibleResource : InteractableResource
 {

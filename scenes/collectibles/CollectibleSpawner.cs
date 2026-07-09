@@ -2,6 +2,8 @@
 using Godot.Collections;
 using TheGoblinExam.Scripts;
 
+namespace TheGoblinExam.scenes.collectibles;
+
 [GlobalClass]
 public partial class CollectibleSpawner : Node2D
 {
@@ -11,7 +13,7 @@ public partial class CollectibleSpawner : Node2D
 
     [Export] public GameUi GameUi { get; set; }
 
-    [Export] private Array<InteractableResource> Collectibles { get; set; } = new();
+    [Export] private Array<Resources.InteractableResource> Collectibles { get; set; } = new();
 
     private PackedScene _collectibleScene = GD.Load<PackedScene>("res://scenes/collectibles/Collectible.tscn");
     private PackedScene _openableScene = GD.Load<PackedScene>("res://scenes/collectibles/Openable.tscn");
@@ -21,10 +23,10 @@ public partial class CollectibleSpawner : Node2D
         SpawnCollectibles();
     }
 
-    public void SpawnCollectibles()
+    private void SpawnCollectibles()
     {
         var markers = GetMarkers();
-        var interactables = new Array<InteractableResource>(Collectibles);
+        var interactables = new Array<Resources.InteractableResource>(Collectibles);
 
         markers.Shuffle();
         interactables.Shuffle();
@@ -43,7 +45,7 @@ public partial class CollectibleSpawner : Node2D
         HideMarkers(markers);
     }
 
-    public Collectible SpawnCollectible(Vector2 globalPosition, CollectibleResource resource)
+    private Collectible SpawnCollectible(Vector2 globalPosition, Resources.Collectibles.CollectibleResource resource)
     {
         GD.Print($"Spawning collectible {resource.Name} at {globalPosition}");
         var collectible = _collectibleScene.Instantiate<Collectible>();
@@ -53,7 +55,7 @@ public partial class CollectibleSpawner : Node2D
         return collectible;
     }
 
-    public void SpawnOpenable(Vector2 globalPosition, OpenableResource resource)
+    private void SpawnOpenable(Vector2 globalPosition, Resources.Openables.OpenableResource resource)
     {
         GD.Print($"Spawning openable at {globalPosition}");
         var openable = _openableScene.Instantiate<Openable>();
@@ -85,13 +87,13 @@ public partial class CollectibleSpawner : Node2D
         openable.MinigameRequested -= GameUi.ShowMinigameForOpenable;
     }
 
-    private void SpawnInteractable(CollectibleMarker marker, InteractableResource resource)
+    private void SpawnInteractable(CollectibleMarker marker, Resources.InteractableResource resource)
     {
-        if (resource is CollectibleResource collectibleResource)
+        if (resource is Resources.Collectibles.CollectibleResource collectibleResource)
         {
             SpawnCollectible(marker.GlobalPosition, collectibleResource);
         }
-        else if (resource is OpenableResource openableResource)
+        else if (resource is Resources.Openables.OpenableResource openableResource)
         {
             SpawnOpenable(marker.GlobalPosition, openableResource);
         }

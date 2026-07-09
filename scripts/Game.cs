@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using Godot;
 using TheGoblinExam.scripts;
+using ShopkeeperSpawner = TheGoblinExam.scenes.shopkeeper.ShopkeeperSpawner;
 
 namespace TheGoblinExam.Scripts;
 
@@ -10,100 +12,141 @@ public partial class Game : Node2D
 
     [Export] private GameUi _gameUi;
     [Export] private Player _player;
-    [Export] private Shopkeeper _shopkeeper;
     [Export] private ShopkeeperSpawner _shopkeeperSpawner;
-    [Export] private CollectibleSpawner _collectibleSpawner;
+    [Export] private scenes.collectibles.CollectibleSpawner _collectibleSpawner;
 
     [Export(PropertyHint.File, "*.tscn")] private string _nextLevelPath;
 
     private Stamina _stamina;
     private Inventory _inventory;
-
+    private Shopkeeper _shopkeeper;
     private Door _door;
-    private bool _isGameOver;
 
+    private bool _isGameOver;
     private readonly List<EnemyAi> _enemies = new();
 
     public override void _Ready()
     {
-        _stamina = _player.GetNode<Stamina>("Stamina");
-        _inventory = _player.GetNode<Inventory>("Inventory");
+        if (!ValidateReferences())
+            return;
+
+        _stamina = _player.GetNodeOrNull<Stamina>("Stamina");
+        _inventory = _player.GetNodeOrNull<Inventory>("Inventory");
+
+        if (_stamina == null || _inventory == null)
+        {
+            GD.PushError("Game.cs: Player is missing Stamina or Inventory child node.");
+            return;
+        }
+
         _gameUi.SetPlayer(_player);
-        _shopkeeperSpawner.ShopkeeperSpawned += OnShopkeeperSpawned;
-        _shopkeeperSpawner.SpawnShopkeeper(_goldNeededForNextLevel);
-        _shopkeeper.MinigameRequested += _gameUi.ShowMinigame;
-        _shopkeeper.Initialize(_goldNeededForNextLevel);
         _collectibleSpawner.GameUi = _gameUi;
-        
+
         FindDoorOnTree();
         CheckNextLevelPath();
         InitializeConnections();
         ConnectEnemies();
+
+        _shopkeeperSpawner.ShopkeeperSpawned += OnShopkeeperSpawned;
+        _shopkeeperSpawner.SpawnShopkeeper(_goldNeededForNextLevel);
     }
-    
+
     public override void _ExitTree()
     {
+        if (_shopkeeperSpawner != null)
+            _shopkeeperSpawner.ShopkeeperSpawned -= OnShopkeeperSpawned;
+
+        if (_shopkeeper != null && GodotObject.IsInstanceValid(_shopkeeper) && _gameUi != null)
+            _shopkeeper.MinigameRequested -= _gameUi.ShowMinigame;
+
         if (_stamina != null && _gameUi != null)
-        {
             _stamina.StaminaChanged -= _gameUi.OnStaminaChanged;
-        }
-        else
-        {
-            GD.PushWarning("Game.cs: Failed to disconnect events between Stamina and GameUI (null reference).");
-        }
 
         if (_player != null && _gameUi != null)
         {
             _player.InteractionAreaEntered -= _gameUi.ShowEKeyContainer;
             _player.InteractionAreaExited -= _gameUi.HideEKeyContainer;
         }
-        else
-        {
-            GD.PushWarning("Game.cs: Failed to disconnect events between Player and GameUI (null reference).");
-        }
+
+        if (_inventory != null)
+            _inventory.GoldChanged -= OnGoldChanged;
+
+        if (_door != null && GodotObject.IsInstanceValid(_door))
+            _door.PlayerEnterDoor -= LoadNextLevel;
 
         foreach (var enemy in _enemies)
         {
-            if (enemy != null)
+            if (enemy != null && GodotObject.IsInstanceValid(enemy))
                 enemy.PlayerCaught -= OnPlayerCaught;
         }
 
-        if (_inventory != null)
+        _enemies.Clear();
+    }
+
+    private bool ValidateReferences()
+    {
+        if (_gameUi == null)
         {
-            _inventory.GoldChanged -= OnGoldChanged;
-        }
-        else
-        {
-            GD.PushWarning("Game.cs: Failed to disconnect events between Inventory and Game (null reference).");
+            GD.PushError("Game.cs: _gameUi is not assigned in the Inspector.");
+            return false;
         }
 
-        if (_door != null)
+        if (_player == null)
         {
-            _door.PlayerEnterDoor -= LoadNextLevel;
+            GD.PushError("Game.cs: _player is not assigned in the Inspector.");
+            return false;
         }
-        else
+
+        if (_shopkeeperSpawner == null)
         {
-            GD.PushWarning("Game.cs: Failed to disconnect events between Door and Game (null reference).");
+            GD.PushError("Game.cs: _shopkeeperSpawner is not assigned in the Inspector.");
+            return false;
         }
+
+        if (_collectibleSpawner == null)
+        {
+            GD.PushError("Game.cs: _collectibleSpawner is not assigned in the Inspector.");
+            return false;
+        }
+
+        return true;
     }
 
     private void OnShopkeeperSpawned(Shopkeeper shopkeeper)
     {
+        if (shopkeeper == null)
+        {
+            GD.PushError("Game.cs: Spawned shopkeeper is null.");
+            return;
+        }
+
+        if (_shopkeeper != null && GodotObject.IsInstanceValid(_shopkeeper) && _gameUi != null)
+            _shopkeeper.MinigameRequested -= _gameUi.ShowMinigame;
+
         _shopkeeper = shopkeeper;
         _shopkeeper.Initialize(_goldNeededForNextLevel);
-        _shopkeeper.MinigameRequested += _gameUi.ShowMinigame;
+
+        if (_gameUi != null)
+            _shopkeeper.MinigameRequested += _gameUi.ShowMinigame;
     }
 
     private void OnGoldChanged(int gold)
     {
+        if (_door == null || !GodotObject.IsInstanceValid(_door))
+            return;
+
         if (gold >= _goldNeededForNextLevel)
-        {
             _door.Unlock();
-        }
     }
 
     private void LoadNextLevel()
     {
+        if (string.IsNullOrWhiteSpace(_nextLevelPath))
+        {
+            GD.PushError("Game.cs: Cannot load next level because _nextLevelPath is empty.");
+            return;
+        }
+
         GetTree().ChangeSceneToFile(_nextLevelPath);
     }
 
@@ -121,17 +164,13 @@ public partial class Game : Node2D
         _door = GetTree().GetFirstNodeInGroup("door") as Door;
 
         if (_door == null)
-        {
-            throw new System.NullReferenceException("Game.cs: Failed to find Door scene on the Tree!");
-        }
+            throw new NullReferenceException("Game.cs: Failed to find Door scene in group 'door'.");
     }
 
     private void CheckNextLevelPath()
     {
         if (string.IsNullOrWhiteSpace(_nextLevelPath))
-        {
-            throw new System.InvalidOperationException("Game.cs: Next Level Path is missing in Inspector!");
-        }
+            throw new InvalidOperationException("Game.cs: Next Level Path is missing in Inspector.");
     }
 
     private void ConnectEnemies()
