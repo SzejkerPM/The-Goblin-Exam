@@ -1,4 +1,5 @@
 using Godot;
+using TheGoblinExam.Resources.Collectibles;
 using TheGoblinExam.scripts;
 
 namespace TheGoblinExam.scenes.collectibles;
@@ -6,7 +7,7 @@ namespace TheGoblinExam.scenes.collectibles;
 [GlobalClass]
 public partial class Collectible : CharacterBody2D, IInteractable
 {
-	public Resources.Collectibles.CollectibleResource CollectibleResource { get; private set; }
+	public CollectibleResource CollectibleResource { get; private set; }
 	public string InteractionPrompt => "Pick up";
 	
 	private Sprite2D _collectibleSprite;
@@ -21,7 +22,7 @@ public partial class Collectible : CharacterBody2D, IInteractable
 		}
 	}
 
-	public void Init(Resources.Collectibles.CollectibleResource resource)
+	public void Init(CollectibleResource resource)
 	{
 		CollectibleResource = resource;
 		_collectibleSprite = GetNode<Sprite2D>("Sprite");

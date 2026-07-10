@@ -1,4 +1,5 @@
 ﻿using Godot;
+using TheGoblinExam.Resources.Openables;
 using TheGoblinExam.scripts;
 
 namespace TheGoblinExam.scenes.collectibles;
@@ -14,10 +15,10 @@ public partial class Openable : Area2D, IInteractable
     
     public string InteractionPrompt => "Open";
 
-    private Resources.Openables.OpenableResource _resource;
+    private OpenableResource _resource;
     private Sprite2D _sprite;
 
-    public void Init(Resources.Openables.OpenableResource resource)
+    public void Init(OpenableResource resource)
     {
         _resource = resource;
         _sprite = GetNode<Sprite2D>("Sprite");
@@ -25,7 +26,7 @@ public partial class Openable : Area2D, IInteractable
         
     }
 
-    public Resources.Openables.OpenableResource GetResource() => _resource;
+    public OpenableResource GetResource() => _resource;
 
     public void Interact()
     {

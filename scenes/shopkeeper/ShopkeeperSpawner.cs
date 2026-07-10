@@ -9,7 +9,7 @@ public partial class ShopkeeperSpawner : Node2D
     [Export] private Node SpawnParent { get; set; }
     [Export] private PackedScene _shopkeeperScene;
     
-    private Array<ShopkeeperMarker> _spawnPositions = new();
+    private Array<ShopkeeperMarker> _spawnPositions = [];
 
     [Signal]
     public delegate void ShopkeeperSpawnedEventHandler(Shopkeeper shopkeeper);

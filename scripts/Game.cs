@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
 using Godot;
+using TheGoblinExam.scenes.collectibles;
+using TheGoblinExam.scenes.shopkeeper;
 using TheGoblinExam.scripts;
-using ShopkeeperSpawner = TheGoblinExam.scenes.shopkeeper.ShopkeeperSpawner;
 
 namespace TheGoblinExam.Scripts;
 
@@ -13,7 +14,7 @@ public partial class Game : Node2D
     [Export] private GameUi _gameUi;
     [Export] private Player _player;
     [Export] private ShopkeeperSpawner _shopkeeperSpawner;
-    [Export] private scenes.collectibles.CollectibleSpawner _collectibleSpawner;
+    [Export] private CollectibleSpawner _collectibleSpawner;
 
     [Export(PropertyHint.File, "*.tscn")] private string _nextLevelPath;
 
@@ -56,7 +57,7 @@ public partial class Game : Node2D
         if (_shopkeeperSpawner != null)
             _shopkeeperSpawner.ShopkeeperSpawned -= OnShopkeeperSpawned;
 
-        if (_shopkeeper != null && GodotObject.IsInstanceValid(_shopkeeper) && _gameUi != null)
+        if (_shopkeeper != null && IsInstanceValid(_shopkeeper) && _gameUi != null)
             _shopkeeper.MinigameRequested -= _gameUi.ShowMinigame;
 
         if (_stamina != null && _gameUi != null)
@@ -71,12 +72,12 @@ public partial class Game : Node2D
         if (_inventory != null)
             _inventory.GoldChanged -= OnGoldChanged;
 
-        if (_door != null && GodotObject.IsInstanceValid(_door))
+        if (_door != null && IsInstanceValid(_door))
             _door.PlayerEnterDoor -= LoadNextLevel;
 
         foreach (var enemy in _enemies)
         {
-            if (enemy != null && GodotObject.IsInstanceValid(enemy))
+            if (enemy != null && IsInstanceValid(enemy))
                 enemy.PlayerCaught -= OnPlayerCaught;
         }
 
@@ -120,7 +121,7 @@ public partial class Game : Node2D
             return;
         }
 
-        if (_shopkeeper != null && GodotObject.IsInstanceValid(_shopkeeper) && _gameUi != null)
+        if (_shopkeeper != null && IsInstanceValid(_shopkeeper) && _gameUi != null)
             _shopkeeper.MinigameRequested -= _gameUi.ShowMinigame;
 
         _shopkeeper = shopkeeper;
@@ -132,7 +133,7 @@ public partial class Game : Node2D
 
     private void OnGoldChanged(int gold)
     {
-        if (_door == null || !GodotObject.IsInstanceValid(_door))
+        if (_door == null || !IsInstanceValid(_door))
             return;
 
         if (gold >= _goldNeededForNextLevel)

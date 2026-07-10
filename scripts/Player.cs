@@ -1,4 +1,5 @@
 using Godot;
+using TheGoblinExam.scenes.collectibles;
 using TheGoblinExam.scripts;
 
 namespace TheGoblinExam.Scripts;
@@ -51,7 +52,7 @@ public partial class Player : CharacterBody2D
 
         if (interactable != null)
         {
-            if (interactable is scenes.collectibles.Collectible && !_inventory.CanAddItems())
+            if (interactable is Collectible && !_inventory.CanAddItems())
             {
                 return;
             }
@@ -167,14 +168,14 @@ public partial class Player : CharacterBody2D
         {
             if (_currentInteractable == null) return;
 
-            if (_currentInteractable is scenes.collectibles.Collectible collectible)
+            if (_currentInteractable is Collectible collectible)
             {
                 var item = collectible.CollectibleResource;
                 _inventory.AddItemToInventory(item);
                 _currentInteractable.Interact();
                 _currentInteractable = null;
             }
-            else if (_currentInteractable is scenes.collectibles.Openable openable)
+            else if (_currentInteractable is Openable openable)
             {
                 openable.Interact();
                 _currentInteractable = null;

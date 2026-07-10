@@ -1,5 +1,6 @@
 ﻿using Godot;
 using Godot.Collections;
+using TheGoblinExam.Resources.Collectibles;
 
 namespace TheGoblinExam.Resources.Openables;
 
@@ -7,5 +8,5 @@ namespace TheGoblinExam.Resources.Openables;
 public partial class OpenableResource : InteractableResource
 {
     [Export] public Texture2D Texture { get; private set; }
-    [Export] public Array<Collectibles.CollectibleResource> Collectibles { get; private set; } = new();
+    [Export] public Array<CollectibleResource> Collectibles { get; private set; } = new();
 }

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
+using TheGoblinExam.Resources.Collectibles;
 
 namespace TheGoblinExam.scripts;
 
@@ -13,7 +14,7 @@ public partial class Inventory : Node
     public float Weight { get; private set; }
 
     private Sprite2D[] _inventorySprites;
-    private readonly List<Resources.Collectibles.CollectibleResource> _inventory = [];
+    private readonly List<CollectibleResource> _inventory = [];
 
     public override void _Ready()
     {
@@ -25,7 +26,7 @@ public partial class Inventory : Node
         SetUpInventorySprites();
     }
 
-    public void AddItemToInventory(Resources.Collectibles.CollectibleResource item)
+    public void AddItemToInventory(CollectibleResource item)
     {
         _inventory.Add(item);
         Weight += item.Weight;

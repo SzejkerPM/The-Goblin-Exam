@@ -1,4 +1,5 @@
 using Godot;
+using TheGoblinExam.scenes.collectibles;
 
 namespace TheGoblinExam.Scripts;
 
@@ -11,7 +12,7 @@ public partial class GameUi : CanvasLayer
     private TextureProgressBar _staminaProgressBar;
     private HBoxContainer _eKeyContainer;
     private Label _actionText;
-    private scenes.collectibles.Openable _currentRequestingOpenable;
+    private Openable _currentRequestingOpenable;
 
     public void SetPlayer(Player player)
     {
@@ -56,7 +57,7 @@ public partial class GameUi : CanvasLayer
         _minigame?.StartMinigame();
     }
 
-    public void ShowMinigameForOpenable(scenes.collectibles.Openable openable)
+    public void ShowMinigameForOpenable(Openable openable)
     {
         _currentRequestingOpenable = openable;
         _player?.SetMovementBlocked(true);
